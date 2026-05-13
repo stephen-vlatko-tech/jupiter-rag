@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jupiter Intelligence — Document Q&A</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060C1A;--bg2:#0B1527;--panel:#101E38;--card:#172440;--border:#1E3254;--border2:#2A4570;--blue:#2563EB;--blue2:#3B82F6;--gold:#D4A843;--gold2:#E8C562;--txt:#E4EDF8;--txt2:#7A92B6;--txt3:#3D5678;--green:#22C55E;--red:#EF4444;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;}
+
+/* API Key */
+#keyScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;animation:fadeIn .4s ease;}
+.key-card{width:460px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:48px;box-shadow:0 24px 64px rgba(0,0,0,.6);}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:36px;}
+.brand-mark{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;color:#050B18;flex-shrink:0;}
+.brand-name{font-size:15px;font-weight:700;letter-spacing:.3px;}
+.brand-sub{font-size:10px;color:var(--txt2);letter-spacing:1.8px;text-transform:uppercase;margin-top:2px;}
+.key-title{font-size:22px;font-weight:700;margin-bottom:8px;}
+.key-sub{font-size:13px;color:var(--txt2);line-height:1.65;margin-bottom:32px;}
+.lbl{display:block;font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--txt2);margin-bottom:8px;}
+.inp{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:13px 16px;color:var(--txt);font-family:'Inter',monospace;font-size:13px;outline:none;transition:border-color .2s;}
+.inp:focus{border-color:var(--blue);}
+.inp::placeholder{color:var(--txt3);}
+.inp-group{margin-bottom:20px;}
+.btn-p{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn-p:hover{background:var(--blue2);transform:translateY(-1px);}
+.key-note{margin-top:18px;font-size:11px;color:var(--txt3);text-align:center;line-height:1.7;}
+.key-note a{color:var(--blue2);text-decoration:none;}
+
+/* App shell */
+#app{display:none;height:100vh;flex-direction:column;}
+#app.on{display:flex;}
+
+/* Navbar */
+.nav{height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:9px;flex-shrink:0;}
+.nav-brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.nav-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#050B18;}
+.nav-name{font-size:13px;font-weight:700;}
+.nav-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}
+.nav-doc{font-size:11.5px;color:var(--txt2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+.nav-doc.on{color:var(--txt);}
+.badge{padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;flex-shrink:0;}
+.badge-proc{background:rgba(37,99,235,.15);color:var(--blue2);border:1px solid rgba(37,99,235,.3);}
+.badge-ok{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.28);}
+.badge.hide{display:none;}
+.nav-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 9px;color:var(--txt2);font-size:11px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;}
+.nav-btn:hover{border-color:var(--blue);color:var(--txt);}
+.nav-btn.act{border-color:var(--gold);color:var(--gold);}
+.nav-btn.danger:hover{border-color:var(--red);color:#FCA5A5;}
+
+/* Team bar */
+.team-bar{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:stretch;flex-shrink:0;overflow-x:auto;}
+.tt{background:none;border:none;border-bottom:2px solid transparent;padding:9px 14px;font-size:11.5px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.tt:hover{color:var(--txt);}
+.tt.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* Question search bar */
+.qbar-wrap{position:relative;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.qs-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0 12px;transition:border-color .2s;}
+.qs-row:focus-within{border-color:var(--blue);}
+.qs-ico{color:var(--txt3);font-size:13px;flex-shrink:0;}
+.qs-inp{flex:1;background:none;border:none;padding:10px 0;color:var(--txt);font-family:'Inter',sans-serif;font-size:13px;outline:none;}
+.qs-inp::placeholder{color:var(--txt3);}
+.qs-inp:disabled::placeholder{color:var(--txt3);opacity:.4;}
+.qs-kbd{font-size:10px;color:var(--txt3);background:var(--border);border-radius:3px;padding:2px 5px;flex-shrink:0;}
+.qs-drop{position:absolute;left:16px;right:16px;top:calc(100% - 1px);background:var(--card);border:1px solid var(--border2);border-radius:0 0 8px 8px;z-index:200;box-shadow:0 12px 32px rgba(0,0,0,.5);overflow:hidden;}
+.qs-drop.hide{display:none;}
+.qs-item{padding:10px 14px;font-size:12.5px;color:var(--txt2);cursor:pointer;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;transition:background .15s;}
+.qs-item:last-child{border-bottom:none;}
+.qs-item:hover,.qs-item.foc{background:rgba(37,99,235,.12);color:var(--txt);}
+.qs-item-arrow{color:var(--txt3);font-size:11px;flex-shrink:0;}
+
+/* Mobile tabs */
+.mob-tabs{display:none;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.mob-tab-row{display:flex;}
+.mob-tab{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px;font-size:12px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.mob-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* Body */
+.body{flex:1;display:flex;overflow:hidden;}
+
+/* Left panel */
+.lp{width:360px;min-width:320px;border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;}
+.lp-top{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.lp-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);}
+.cmp-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.cmp-btn:hover{border-color:var(--blue2);color:var(--txt);}
+.cmp-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,168,67,.07);}
+.slots-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.doc-slot{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+.doc-slot+.doc-slot{border-top:2px solid var(--border2);}
+.slot-tag{padding:5px 14px;background:rgba(212,168,67,.07);border-bottom:1px solid var(--border);flex-shrink:0;display:none;}
+.slot-tag.on{display:block;}
+.slot-tag-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gold);}
+
+/* Upload */
+.up-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px;gap:12px;}
+.up-zone{width:100%;border:2px dashed var(--border2);border-radius:10px;padding:26px 18px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(37,99,235,.03);}
+.up-zone:hover,.up-zone.over{border-color:var(--blue);background:rgba(37,99,235,.08);}
+.up-ico{font-size:32px;margin-bottom:10px;}
+.up-ttl{font-size:13px;font-weight:600;margin-bottom:4px;}
+.up-sub{font-size:11.5px;color:var(--txt2);line-height:1.6;}
+.up-note{font-size:11px;color:var(--txt3);text-align:center;line-height:1.6;}
+.prog-wrap{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-wrap.hide{display:none;}
+.prog{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:2px;transition:width .3s ease;width:0%;}
+.pdf-err{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:16px;text-align:center;}
+.pdf-err-ico{font-size:24px;margin-bottom:8px;}
+.pdf-err-ttl{font-size:12.5px;font-weight:600;color:#FCA5A5;margin-bottom:5px;}
+.pdf-err-msg{font-size:11px;color:var(--txt2);line-height:1.6;margin-bottom:12px;}
+.pdf-err-btn{background:none;border:1px solid rgba(239,68,68,.4);border-radius:5px;padding:6px 14px;font-size:11.5px;color:#FCA5A5;cursor:pointer;font-family:'Inter',sans-serif;}
+.pdf-err-btn:hover{background:rgba(239,68,68,.1);}
+
+/* Doc info */
+.di{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.di.on{display:flex;}
+.di-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;flex-shrink:0;}
+.di-head-txt{flex:1;min-width:0;}
+.di-title{font-size:12.5px;font-weight:600;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.di-meta{display:flex;gap:12px;flex-wrap:wrap;}
+.meta-item{font-size:10.5px;color:var(--txt2);}
+.meta-val{color:var(--gold);font-weight:600;}
+.di-change{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:10.5px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.di-change:hover{border-color:var(--blue2);color:var(--txt);}
+.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);padding:10px 14px 6px;flex-shrink:0;}
+.chunks{flex:1;overflow-y:auto;padding:0 8px 12px;}
+.ck{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 11px;margin-bottom:5px;cursor:pointer;transition:all .2s;}
+.ck:hover{border-color:var(--border2);}
+.ck.lit{border-color:var(--gold);background:rgba(212,168,67,.07);}
+.ck-pg{font-size:9.5px;font-weight:700;letter-spacing:.5px;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.ck-prev{font-size:11px;color:var(--txt2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* Right panel */
+.rp{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);min-width:0;}
+
+/* Chat */
+.chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;}
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;gap:12px;}
+.wel-ico{font-size:44px;opacity:.35;}
+.wel-ttl{font-size:16px;font-weight:600;color:var(--txt2);}
+.wel-txt{font-size:13px;color:var(--txt3);line-height:1.65;max-width:340px;}
+
+/* Health dashboard */
+.hcard{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;animation:slideUp .3s ease;}
+.hcard-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.hcard-title-ico{color:var(--gold);}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.hi{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;background:var(--card);border-radius:7px;border:1px solid var(--border);}
+.hi-ico{font-size:13px;flex-shrink:0;margin-top:1px;line-height:1;}
+.hi-lbl{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:2px;}
+.hi-note{font-size:10.5px;color:var(--txt2);line-height:1.4;}
+.hloading{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--txt2);padding:4px 0;}
+
+/* Messages */
+.msg{display:flex;flex-direction:column;gap:6px;animation:slideUp .3s ease;}
+.msg-hd{display:flex;align-items:center;gap:7px;}
+.av{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
+.av-u{background:rgba(37,99,235,.2);color:var(--blue2);}
+.av-a{background:rgba(212,168,67,.2);color:var(--gold);}
+.msg-role{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--txt3);text-transform:uppercase;flex:1;}
+.conf{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
+.conf-h{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25);}
+.conf-m{background:rgba(212,168,67,.1);color:var(--gold);border:1px solid rgba(212,168,67,.25);}
+.conf-l{background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2);}
+.copy-btn{background:none;border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:10.5px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.copy-btn:hover{border-color:var(--blue2);color:var(--txt);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);}
+.bubble{padding:13px 15px;border-radius:11px;font-size:13.5px;line-height:1.72;}
+.bbl-u{background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.18);border-radius:11px 11px 3px 11px;}
+.bbl-a{background:var(--panel);border:1px solid var(--border);border-radius:11px 11px 11px 3px;}
+.srcs{display:flex;flex-direction:column;gap:6px;margin-top:2px;}
+.src{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.18);border-left:3px solid var(--gold);border-radius:0 7px 7px 0;padding:8px 12px;}
+.src-lbl{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.src-txt{font-size:11.5px;color:var(--txt2);line-height:1.5;font-style:italic;}
+.time-saved{display:flex;align-items:center;gap:6px;padding:5px 11px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:20px;font-size:10.5px;color:var(--green);font-weight:500;align-self:flex-start;}
+
+/* Loading */
+.loading{display:flex;align-items:center;gap:10px;padding:13px 15px;background:var(--panel);border:1px solid var(--border);border-radius:11px;}
+.dots{display:flex;gap:4px;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:dp 1.4s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s;}
+.dot:nth-child(3){animation-delay:.4s;}
+.load-txt{font-size:13px;color:var(--txt2);}
+
+/* Input bar */
+.cin-bar{padding:14px 18px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.cin-wrap{display:flex;gap:9px;align-items:flex-end;}
+.cin{flex:1;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--txt);font-family:'Inter',sans-serif;font-size:13.5px;outline:none;resize:none;min-height:42px;max-height:110px;transition:border-color .2s;line-height:1.5;}
+.cin:focus{border-color:var(--blue);}
+.cin::placeholder{color:var(--txt3);}
+.send{background:var(--blue);border:none;border-radius:9px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0;}
+.send:hover:not(:disabled){background:var(--blue2);transform:translateY(-1px);}
+.send:disabled{opacity:.35;cursor:not-allowed;}
+.cin-actions{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.act-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 11px;font-size:11px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;}
+.act-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.act-btn:disabled{opacity:.3;cursor:not-allowed;}
+.cin-hint{font-size:10.5px;color:var(--txt3);margin-left:auto;}
+
+/* Memory panel */
+.mp{width:270px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;transition:width .25s ease,opacity .25s ease;}
+.mp.closed{width:0;opacity:0;border-left:none;}
+.mp-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.mp-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);}
+.mp-close{background:none;border:none;color:var(--txt2);cursor:pointer;font-size:16px;line-height:1;padding:2px;}
+.mp-body{flex:1;overflow-y:auto;padding:10px;}
+.mp-empty{font-size:12px;color:var(--txt3);text-align:center;padding:20px 10px;line-height:1.65;}
+.mp-entry{margin-bottom:14px;}
+.mp-entry-q{font-size:10.5px;color:var(--txt2);margin-bottom:6px;display:flex;align-items:baseline;gap:6px;}
+.mp-n{background:var(--gold);color:#050B18;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:800;flex-shrink:0;}
+.mp-chunk{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px;}
+.mp-chunk.lit{border-color:var(--gold);background:rgba(212,168,67,.07);}
+.mp-pg{font-size:9.5px;font-weight:700;color:var(--gold);margin-bottom:3px;}
+.mp-txt{font-size:11px;color:var(--txt2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* Modals */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:500;animation:fadeIn .2s ease;}
+.modal.hide{display:none;}
+.modal-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;width:680px;max-width:calc(100vw - 32px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.7);}
+.modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.modal-head-ttl{font-size:14px;font-weight:700;}
+.modal-x{background:none;border:none;color:var(--txt2);cursor:pointer;font-size:20px;line-height:1;}
+.modal-body{flex:1;overflow-y:auto;padding:20px;}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:9px;justify-content:flex-end;flex-shrink:0;}
+.mbtn{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.mbtn-sec{background:none;border:1px solid var(--border);color:var(--txt2);}
+.mbtn-sec:hover{border-color:var(--blue);color:var(--txt);}
+.mbtn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;color:#050B18;}
+.mbtn-gold:hover{transform:translateY(-1px);}
+.mbtn-gold:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.brief-pre{font-family:'Courier New',monospace;font-size:12px;color:var(--txt2);line-height:1.8;white-space:pre-wrap;word-break:break-word;}
+.letter-desc{font-size:13px;color:var(--txt2);line-height:1.65;margin-bottom:16px;}
+.ltype-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.ltype{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;color:var(--txt2);transition:all .2s;}
+.ltype:hover{border-color:var(--blue);color:var(--txt);}
+.ltype.active{border-color:var(--gold);color:var(--gold);background:rgba(212,168,67,.08);}
+
+/* Utilities */
+.hide{display:none!important;}
+.toast{position:fixed;top:16px;right:16px;background:#1F0E0E;border:1px solid rgba(239,68,68,.38);border-radius:8px;padding:10px 15px;font-size:12.5px;color:#FCA5A5;max-width:340px;z-index:9999;animation:slideUp .3s ease;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--border2);}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dp{0%,80%,100%{transform:scale(.65);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+/* Mobile */
+@media(max-width:768px){
+  html,body{overflow:auto;height:auto;}
+  #app{height:auto;min-height:100vh;}
+  .body{flex-direction:column;overflow:visible;}
+  .lp{width:100%;min-width:unset;border-right:none;border-bottom:1px solid var(--border);}
+  .lp.mob-hidden,.rp.mob-hidden,.mp.mob-hidden{display:none!important;}
+  .mp{width:100%;border-left:none;border-top:1px solid var(--border);}
+  .mp.closed{width:100%;opacity:1;height:0;overflow:hidden;}
+  .rp{min-height:55vh;}
+  .mob-tabs{display:block;}
+  .nav-name{display:none;}
+  .nav-sep{display:none;}
+  .hgrid{grid-template-columns:1fr;}
+  .key-card{width:calc(100vw - 32px);padding:30px 22px;}
+  .cin-bar{padding:10px 14px;}
+  .modal-card{max-height:90vh;}
+}
+@media(max-width:480px){
+  .badge{display:none;}
+  .nav-doc{font-size:11px;}
+  .tt{padding:8px 10px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<!-- API Key Screen -->
+<div id="keyScreen">
+  <div class="key-card">
+    <div class="brand">
+      <div class="brand-mark">J</div>
+      <div><div class="brand-name">JUPITER</div><div class="brand-sub">Asset Management</div></div>
+    </div>
+    <h2 class="key-title">Document Intelligence</h2>
+    <p class="key-sub">Interrogate fund factsheets, investor reports, and regulatory filings using natural language — powered by Claude AI.</p>
+    <div class="inp-group">
+      <label class="lbl" for="keyInp">Anthropic API Key</label>
+      <input type="password" id="keyInp" class="inp" placeholder="sk-ant-api03-…" autocomplete="off">
+    </div>
+    <button class="btn-p" id="contBtn">Continue →</button>
+    <p class="key-note">Stored in session memory only — never sent to Jupiter servers.<br>
+      <a href="https://console.anthropic.com/keys" target="_blank">Get a key at console.anthropic.com →</a></p>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+  <nav class="nav">
+    <div class="nav-brand"><div class="nav-mark">J</div><span class="nav-name">Jupiter Intelligence</span></div>
+    <div class="nav-sep"></div>
+    <div class="nav-doc" id="navDoc">No document loaded</div>
+    <span class="badge hide" id="navBadge">Processing</span>
+    <button class="nav-btn danger hide" id="clearBtn">↺ Clear</button>
+    <button class="nav-btn" id="memBtn">⊞ Sources</button>
+    <button class="nav-btn" id="keyBtn">⚙ Key</button>
+  </nav>
+
+  <!-- Team selector -->
+  <div class="team-bar" id="teamBar">
+    <button class="tt active" data-team="investment">Investment</button>
+    <button class="tt" data-team="compliance">Compliance</button>
+    <button class="tt" data-team="marketing">Marketing</button>
+    <button class="tt" data-team="client">Client Relations</button>
+    <button class="tt" data-team="operations">Operations</button>
+  </div>
+
+  <!-- Question search bar -->
+  <div class="qbar-wrap" id="qbarWrap">
+    <div class="qs-row">
+      <span class="qs-ico">⌕</span>
+      <input class="qs-inp" id="qsInp" placeholder="Search questions or type your own…" autocomplete="off" disabled>
+      <span class="qs-kbd">↵ ask</span>
+    </div>
+    <div class="qs-drop hide" id="qsDrop"></div>
+  </div>
+
+  <!-- Mobile tabs -->
+  <div class="mob-tabs">
+    <div class="mob-tab-row">
+      <button class="mob-tab active" id="tabDoc" onclick="mobTab('doc')">📄 Docs</button>
+      <button class="mob-tab" id="tabChat" onclick="mobTab('chat')">💬 Chat</button>
+      <button class="mob-tab" id="tabMem" onclick="mobTab('mem')">🧠 Sources</button>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- Left panel -->
+    <div class="lp" id="lp">
+      <div class="lp-top">
+        <span class="lp-lbl">Documents</span>
+        <button class="cmp-btn" id="cmpBtn">⊕ Compare</button>
+      </div>
+      <div class="slots-wrap">
+        <!-- Slot 0 -->
+        <div class="doc-slot" id="slot0">
+          <div class="slot-tag" id="slot0tag"><span class="slot-tag-lbl">Document 1</span></div>
+          <div class="up-area" id="upArea0">
+            <div class="up-zone" id="upZone0">
+              <div class="up-ico">📄</div>
+              <div class="up-ttl">Upload a Fund Document</div>
+              <div class="up-sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
+              <input type="file" id="fileInp0" accept=".pdf" style="display:none">
+            </div>
+            <div style="width:100%"><div class="prog-wrap hide" id="progWrap0"><div class="prog" id="prog0"></div></div></div>
+            <div class="up-note" id="upNote0">Loading Jupiter India Fund factsheet…</div>
+          </div>
+          <div class="di" id="di0">
+            <div class="di-head">
+              <div class="di-head-txt">
+                <div class="di-title" id="diTitle0">—</div>
+                <div class="di-meta">
+                  <div class="meta-item">Pages: <span class="meta-val" id="diPg0">—</span></div>
+                  <div class="meta-item">Sections: <span class="meta-val" id="diCk0">—</span></div>
+                  <div class="meta-item">Words: <span class="meta-val" id="diWd0">—</span></div>
+                </div>
+              </div>
+              <button class="di-change" onclick="changeDocSlot(0)">⇄ Change</button>
+            </div>
+            <div class="sec-lbl">Sections</div>
+            <div class="chunks" id="ckList0"></div>
+          </div>
+        </div>
+        <!-- Slot 1 (compare mode) -->
+        <div class="doc-slot hide" id="slot1">
+          <div class="slot-tag on"><span class="slot-tag-lbl">Document 2</span></div>
+          <div class="up-area" id="upArea1">
+            <div class="up-zone" id="upZone1">
+              <div class="up-ico">📄</div>
+              <div class="up-ttl">Upload Second Document</div>
+              <div class="up-sub">Upload a second PDF to compare</div>
+              <input type="file" id="fileInp1" accept=".pdf" style="display:none">
+            </div>
+            <div style="width:100%"><div class="prog-wrap hide" id="progWrap1"><div class="prog" id="prog1"></div></div></div>
+            <div class="up-note" id="upNote1">Drop a PDF here to compare</div>
+          </div>
+          <div class="di" id="di1">
+            <div class="di-head">
+              <div class="di-head-txt">
+                <div class="di-title" id="diTitle1">—</div>
+                <div class="di-meta">
+                  <div class="meta-item">Pages: <span class="meta-val" id="diPg1">—</span></div>
+                  <div class="meta-item">Sections: <span class="meta-val" id="diCk1">—</span></div>
+                </div>
+              </div>
+              <button class="di-change" onclick="changeDocSlot(1)">⇄ Change</button>
+            </div>
+            <div class="sec-lbl">Sections</div>
+            <div class="chunks" id="ckList1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat panel -->
+    <div class="rp" id="rp">
+      <div class="chat" id="chat">
+        <div class="welcome" id="welcome">
+          <div class="wel-ico">🔍</div>
+          <div class="wel-ttl">Ready to analyse your document</div>
+          <div class="wel-txt">Upload a Jupiter fund factsheet, then select your team and ask any question. Answers are sourced strictly from the document.</div>
+        </div>
+      </div>
+      <div class="cin-bar">
+        <div class="cin-wrap">
+          <textarea class="cin" id="cin" placeholder="Ask a question about this document…" rows="1" disabled></textarea>
+          <button class="send" id="sendBtn" disabled>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="cin-actions">
+          <button class="act-btn" id="briefBtn" disabled>📋 Briefing Pack</button>
+          <button class="act-btn" id="letterBtn" disabled>✉ Client Letter</button>
+          <div class="cin-hint">Enter to send · Shift+Enter for new line</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memory panel -->
+    <div class="mp closed" id="mp">
+      <div class="mp-head">
+        <span class="mp-title">RAG Sources</span>
+        <button class="mp-close" onclick="toggleMem()">✕</button>
+      </div>
+      <div class="mp-body" id="mpBody">
+        <div class="mp-empty">Retrieved document sections will appear here as you ask questions — showing exactly what Claude read to generate each answer.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Briefing Pack Modal -->
+<div class="modal hide" id="briefModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="modal-head-ttl">📋 Briefing Pack</span>
+      <button class="modal-x" onclick="closeMod('briefModal')">×</button>
+    </div>
+    <div class="modal-body"><pre class="brief-pre" id="briefPre"></pre></div>
+    <div class="modal-foot">
+      <button class="mbtn mbtn-sec" onclick="closeMod('briefModal')">Close</button>
+      <button class="mbtn mbtn-gold" id="briefCopyBtn">⎘ Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- Client Letter Modal -->
+<div class="modal hide" id="letterModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="modal-head-ttl">✉ Draft Client Letter</span>
+      <button class="modal-x" onclick="closeMod('letterModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="letterCfg">
+        <p class="letter-desc">Select the investor type. The tone, technical depth, and regulatory language will be adjusted accordingly.</p>
+        <div class="ltype-row">
+          <button class="ltype active" data-t="retail">Retail Investor</button>
+          <button class="ltype" data-t="institutional">Institutional</button>
+          <button class="ltype" data-t="wholesale">Wholesale</button>
+        </div>
+        <button class="mbtn mbtn-gold" id="genLetBtn" style="width:100%">Generate Letter →</button>
+      </div>
+      <div id="letterOut" class="hide">
+        <pre class="brief-pre" id="letterPre"></pre>
+      </div>
+    </div>
+    <div class="modal-foot hide" id="letterFoot">
+      <button class="mbtn mbtn-sec" onclick="resetLetter()">← Change type</button>
+      <button class="mbtn mbtn-gold" id="letCopyBtn">⎘ Copy letter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Config ──────────────────────────────────────────────────────────────────
+const MODEL = 'claude-sonnet-4-6';
+const CHUNK_WORDS = 420;
+const CHUNK_OVERLAP = 55;
+const MAX_CHUNKS = 8;
+const SAMPLE_URLS = [
+  'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
+  'https://corsproxy.io/?' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
+];
+
+const SYS_BASE = `You are Document Intelligence for Jupiter Asset Management. Answer ONLY from the provided document excerpts. Never use external knowledge.
+Rules: 1) Cite every fact with source number and page e.g. "According to Source 2 (Page 4)…" 2) If the answer is absent say "I cannot find this in the provided sections." 3) Never speculate beyond explicit text. 4) Quote numbers and dates exactly as written.`;
+
+// ─── Teams ────────────────────────────────────────────────────────────────────
+const TEAMS = {
+  investment:{label:'Investment',name:'Investment Team',
+    prompt:'You are analysing this document for a fund manager. Be precise, data-focused, and highlight anything that affects portfolio positioning or performance.',
+    qs:['What are the top 10 holdings?','What is the fund\'s geographic exposure?','Which sectors are overweight or underweight?','How has the fund performed versus its benchmark?','What is the fund\'s active share?','What is the portfolio turnover rate?','What are the largest country allocations?','What is the fund\'s volatility compared to the index?','What are the top contributors to performance this quarter?','What are the top detractors from performance?','What is the fund\'s Sharpe ratio?','How concentrated is the portfolio?','What is the fund\'s exposure to emerging markets?','What is the average market cap of holdings?','Has the fund manager made any significant changes to positioning recently?','What is the fund\'s currency exposure?','What is the beta of the portfolio?','What is the fund\'s drawdown history?','What is the ESG rating of the fund?','What are the fund\'s stewardship and voting policies?']},
+  compliance:{label:'Compliance',name:'Compliance Team',
+    prompt:'You are analysing this document for a compliance officer at an FCA-regulated asset manager. Flag any regulatory obligations, risks, or restrictions explicitly.',
+    qs:['What are the key regulatory risks mentioned?','What FCA obligations are referenced in this document?','Are there any material risk warnings?','What are the investment restrictions for this fund?','What is the fund\'s regulatory status?','Is the fund UCITS compliant?','What are the liquidity risk disclosures?','What leverage limits apply to this fund?','Are there any conflicts of interest disclosed?','What are the anti-money laundering provisions?','What are the key risks listed in the KIID?','What is the fund\'s risk and reward profile score?','Are there any sanctions or exclusion policies?','What are the reporting obligations mentioned?','What are the redemption gate provisions?','Are there any side pocket arrangements?','What are the valuation policies?','What are the fund\'s complaint handling procedures?','What regulatory filings are referenced?','What are the data protection obligations mentioned?']},
+  marketing:{label:'Marketing',name:'Marketing Team',
+    prompt:'You are analysing this document for a marketing team at an asset manager. Focus on clarity, client-friendly language, and identifying the strongest selling points.',
+    qs:['Summarise this fund in plain English for a retail investor','What are the key selling points of this fund?','What makes this fund differentiated from competitors?','Write a one paragraph fund description','What is the fund\'s investment objective in simple terms?','What type of investor is this fund suitable for?','What is the fund\'s track record?','What awards or recognition has this fund received?','What is the fund manager\'s investment philosophy?','How would you describe the fund\'s strategy in one sentence?','What is the fund\'s risk profile in plain English?','What are the main reasons an investor would choose this fund?','What is the minimum investment amount?','How long has the fund been running?','Who manages this fund and what is their background?','What are the fund\'s charges and fees in plain English?','What is the fund size?','How often does the fund pay income?','Is this fund suitable for ISA investment?','What are the tax implications for UK investors?']},
+  client:{label:'Client Relations',name:'Client Relations Team',
+    prompt:'You are analysing this document for a client relations manager. Focus on information that would be most relevant and reassuring to communicate to investors.',
+    qs:['What should I tell an institutional client about this fund?','What are the main risks to communicate to clients?','How has the fund performed recently?','What is the minimum investment?','What are the dealing and settlement terms?','What reporting does the fund provide to investors?','What are the redemption terms?','How does the fund handle large redemptions?','What is the fund\'s liquidity profile?','Who is the fund\'s target investor?','What are the share classes available?','What currencies are available?','How do I explain the fund\'s underperformance to a client?','What are the key differences between share classes?','What is the total expense ratio?','How often is the fund valued?','What is the fund\'s distribution policy?','How do I subscribe to this fund?','What documentation does a new investor need to provide?','What are the anti-dilution levy provisions?']},
+  operations:{label:'Operations',name:'Operations Team',
+    prompt:'You are analysing this document for an operations team member. Focus on operational details, fund structure, fees, and administrative information.',
+    qs:['What are the dealing deadlines?','What are the fees and charges?','What is the fund domicile and structure?','Who are the key service providers?','What is the fund\'s ISIN?','What is the cut-off time for same day dealing?','Who is the fund\'s depositary?','Who is the fund administrator?','What is the fund\'s base currency?','What are the settlement terms?','What are the swing pricing provisions?','What are the anti-dilution levy trigger points?','Who is the fund\'s auditor?','What are the NAV calculation terms?','What are the subscription and redemption minimums?','What platforms is the fund available on?','What are the transfer agent details?','What are the fund\'s Bloomberg and Reuters codes?','What are the hedging arrangements for currency share classes?','What are the fund\'s distribution dates?']}
+};
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let KEY = '';
+let docs = [{ chunks:[], title:'', pages:0, words:0 }, { chunks:[], title:'', pages:0, words:0 }];
+let compareMode = false;
+let currentTeam = 'investment';
+let busy = false;
+let litChunks = [];
+let chatHistory = [];
+let memHistory = [];
+let answerN = 0;
+let memOpen = false;
+let focusedSugg = -1;
+let selectedLetterType = 'retail';
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+function bootKey() {
+  const saved = sessionStorage.getItem('j_key');
+  if (saved) { KEY = saved; launchApp(); return; }
+  document.getElementById('contBtn').onclick = submitKey;
+  document.getElementById('keyInp').onkeydown = e => { if (e.key === 'Enter') submitKey(); };
+}
+
+function submitKey() {
+  const v = document.getElementById('keyInp').value.trim();
+  if (!v.startsWith('sk-')) { toast('Please enter a valid Anthropic API key (starts with sk-)'); return; }
+  KEY = v; sessionStorage.setItem('j_key', v); launchApp();
+}
+
+function launchApp() {
+  document.getElementById('keyScreen').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+  initSlot(0); initSlot(1);
+  initTeams(); initQBar(); initChat();
+  document.getElementById('keyBtn').onclick = () => { sessionStorage.removeItem('j_key'); location.reload(); };
+  document.getElementById('clearBtn').onclick = clearChat;
+  document.getElementById('memBtn').onclick = toggleMem;
+  document.getElementById('cmpBtn').onclick = toggleCompare;
+  document.getElementById('briefBtn').onclick = openBriefing;
+  document.getElementById('letterBtn').onclick = openLetter;
+  document.getElementById('briefCopyBtn').onclick = () => copyText(document.getElementById('briefPre').textContent, document.getElementById('briefCopyBtn'));
+  document.getElementById('letCopyBtn').onclick = () => copyText(document.getElementById('letterPre').textContent, document.getElementById('letCopyBtn'));
+  document.getElementById('genLetBtn').onclick = runGenLetter;
+  document.querySelectorAll('.ltype').forEach(b => b.onclick = () => {
+    document.querySelectorAll('.ltype').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); selectedLetterType = b.dataset.t;
+  });
+  loadSample();
+}
+
+// ─── Mobile tabs ──────────────────────────────────────────────────────────────
+function mobTab(tab) {
+  ['doc','chat','mem'].forEach(t => {
+    document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1))?.classList.toggle('active', t===tab);
+  });
+  const lp = document.getElementById('lp'), rp = document.getElementById('rp'), mp = document.getElementById('mp');
+  lp.classList.toggle('mob-hidden', tab !== 'doc');
+  rp.classList.toggle('mob-hidden', tab !== 'chat');
+  mp.classList.toggle('mob-hidden', tab !== 'mem');
+  if (tab === 'chat') document.getElementById('cin').focus();
+}
+
+// ─── Compare mode ─────────────────────────────────────────────────────────────
+function toggleCompare() {
+  compareMode = !compareMode;
+  document.getElementById('cmpBtn').classList.toggle('active', compareMode);
+  document.getElementById('cmpBtn').textContent = compareMode ? '✕ Single' : '⊕ Compare';
+  document.getElementById('slot0tag').classList.toggle('on', compareMode);
+  document.getElementById('slot1').classList.toggle('hide', !compareMode);
+  updateNavDoc();
+}
+
+// ─── Team selector ────────────────────────────────────────────────────────────
+function initTeams() {
+  document.querySelectorAll('.tt').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.tt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTeam = btn.dataset.team;
+      renderSuggestions(document.getElementById('qsInp').value);
+    };
+  });
+}
+
+// ─── Question search bar ──────────────────────────────────────────────────────
+function initQBar() {
+  const inp = document.getElementById('qsInp');
+  inp.oninput = () => { focusedSugg = -1; renderSuggestions(inp.value); };
+  inp.onfocus = () => renderSuggestions(inp.value);
+  inp.onkeydown = e => {
+    const items = document.querySelectorAll('.qs-item');
+    if (e.key === 'ArrowDown') { e.preventDefault(); focusedSugg = Math.min(focusedSugg+1, items.length-1); updateSuggFocus(items); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); focusedSugg = Math.max(focusedSugg-1, -1); updateSuggFocus(items); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (focusedSugg >= 0 && items[focusedSugg]) submitFromQBar(items[focusedSugg].dataset.q);
+      else if (inp.value.trim()) submitFromQBar(inp.value.trim());
+    }
+    else if (e.key === 'Escape') closeDrop();
+  };
+  document.addEventListener('click', e => { if (!e.target.closest('#qbarWrap')) closeDrop(); });
+}
+
+function renderSuggestions(query) {
+  const drop = document.getElementById('qsDrop');
+  if (docs[0].chunks.length === 0) { drop.classList.add('hide'); return; }
+  const matches = getSuggestions(query);
+  if (!matches.length) { drop.classList.add('hide'); return; }
+  drop.innerHTML = matches.map((q,i) =>
+    `<div class="qs-item${i===focusedSugg?' foc':''}" data-q="${esc(q)}"><span class="qs-item-arrow">→</span>${esc(q)}</div>`
+  ).join('');
+  drop.querySelectorAll('.qs-item').forEach(item => {
+    item.onmousedown = e => { e.preventDefault(); submitFromQBar(item.dataset.q); };
+  });
+  drop.classList.remove('hide');
+}
+
+function updateSuggFocus(items) {
+  items.forEach((el,i) => el.classList.toggle('foc', i===focusedSugg));
+}
+
+function closeDrop() {
+  document.getElementById('qsDrop').classList.add('hide');
+  focusedSugg = -1;
+}
+
+function getSuggestions(query) {
+  const qs = TEAMS[currentTeam].qs;
+  if (!query.trim()) return qs.slice(0, 6);
+  const q = query.toLowerCase();
+  return qs
+    .map(s => ({ s, sc: matchScore(q, s.toLowerCase()) }))
+    .filter(x => x.sc > 0)
+    .sort((a,b) => b.sc - a.sc)
+    .slice(0, 6)
+    .map(x => x.s);
+}
+
+function matchScore(q, t) {
+  if (t.startsWith(q)) return 100;
+  if (t.includes(q)) return 80;
+  const words = q.split(/\s+/).filter(Boolean);
+  const hits = words.filter(w => t.includes(w)).length;
+  if (hits === words.length) return 60;
+  if (hits > 0) return hits * 20;
+  let qi = 0;
+  for (let i = 0; i < t.length && qi < q.length; i++) if (t[i] === q[qi]) qi++;
+  return qi === q.length ? 10 : 0;
+}
+
+function submitFromQBar(q) {
+  closeDrop();
+  document.getElementById('qsInp').value = '';
+  document.getElementById('cin').value = q;
+  document.getElementById('cin').dispatchEvent(new Event('input'));
+  if (window.innerWidth <= 768) mobTab('chat');
+  send();
+}
+
+// ─── Sample PDF ───────────────────────────────────────────────────────────────
+async function loadSample() {
+  setNote(0, 'Loading Jupiter India Fund factsheet…'); setSlotProg(0, 8);
+  for (const url of SAMPLE_URLS) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(14000) });
+      if (!r.ok) continue;
+      const buf = await r.arrayBuffer();
+      if (buf.byteLength < 1000) continue;
+      setSlotProg(0, 38);
+      await processPDF(buf, 'Jupiter India Fund — Factsheet', 0);
+      return;
+    } catch (_) {}
+  }
+  hideSlotProg(0);
+  setNote(0, 'Auto-load unavailable. Please upload a Jupiter fund factsheet (PDF).');
+}
+
+// ─── Slot init ────────────────────────────────────────────────────────────────
+function initSlot(n) {
+  wireSlot(n);
+}
+
+function wireSlot(n) {
+  const zone = document.getElementById('upZone'+n);
+  const inp = document.getElementById('fileInp'+n);
+  zone.onclick = () => inp.click();
+  inp.onchange = e => { if (e.target.files[0]) readFileForSlot(e.target.files[0], n); inp.value=''; };
+  zone.ondragover = e => { e.preventDefault(); zone.classList.add('over'); };
+  zone.ondragleave = () => zone.classList.remove('over');
+  zone.ondrop = e => {
+    e.preventDefault(); zone.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f?.type === 'application/pdf') readFileForSlot(f, n);
+    else toast('Please drop a PDF file.');
+  };
+}
+
+async function readFileForSlot(f, n) {
+  clearPdfErr(n); setSlotProg(n, 8); setNote(n, 'Processing ' + f.name + '…');
+  try {
+    const buf = await f.arrayBuffer();
+    await processPDF(buf, f.name.replace(/\.pdf$/i,''), n);
+  } catch(err) { showPdfErr(n, 'Could not read file: ' + err.message); }
+}
+
+function changeDocSlot(n) {
+  document.getElementById('di'+n).classList.remove('on');
+  document.getElementById('upArea'+n).style.display = '';
+  clearPdfErr(n); hideSlotProg(n);
+  setNote(n, 'Upload a new PDF.');
+  docs[n] = { chunks:[], title:'', pages:0, words:0 };
+  document.getElementById('ckList'+n).innerHTML = '';
+  if (n === 0) {
+    document.getElementById('navDoc').textContent = 'No document loaded';
+    document.getElementById('navDoc').classList.remove('on');
+    setBadge(null);
+    document.getElementById('cin').disabled = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('qsInp').disabled = true;
+    clearChat(true);
+  }
+  updateNavDoc();
+  document.getElementById('fileInp'+n).click();
+}
+
+// ─── PDF error UI ─────────────────────────────────────────────────────────────
+function showPdfErr(n, msg) {
+  hideSlotProg(n); setBadge(null); setNote(n, '');
+  const zone = document.getElementById('upZone'+n);
+  zone.onclick = null; zone.ondragover = null; zone.ondrop = null; zone.classList.remove('over');
+  zone.innerHTML = `<div class="pdf-err"><div class="pdf-err-ico">⚠️</div><div class="pdf-err-ttl">Could not read this PDF</div><div class="pdf-err-msg">${esc(msg)}<br><br>The file may be password-protected, corrupt, or image-based. Try a text-based PDF.</div><button class="pdf-err-btn" id="errBtn${n}">Try another file</button></div>`;
+  document.getElementById('errBtn'+n).onclick = e => { e.stopPropagation(); clearPdfErr(n); document.getElementById('fileInp'+n).click(); };
+}
+
+function clearPdfErr(n) {
+  const zone = document.getElementById('upZone'+n);
+  const isSlot0 = n === 0;
+  zone.innerHTML = `<div class="up-ico">📄</div><div class="up-ttl">${isSlot0?'Upload a Fund Document':'Upload Second Document'}</div><div class="up-sub">${isSlot0?'Fund factsheets, investor reports,<br>or regulatory filings (PDF)':'Upload a second PDF to compare'}</div><input type="file" id="fileInp${n}" accept=".pdf" style="display:none">`;
+  wireSlot(n);
+}
+
+// ─── PDF Processing ───────────────────────────────────────────────────────────
+async function processPDF(buf, title, n) {
+  try {
+    setBadge('Processing…', 'proc');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdf;
+    try { pdf = await pdfjsLib.getDocument({ data: buf }).promise; }
+    catch(e) { throw new Error('PDF.js could not parse this file. ' + (e.message||'')); }
+    const numPages = pdf.numPages;
+    if (!numPages) throw new Error('The PDF appears to have no pages.');
+    setSlotProg(n, 45);
+    const pages = [];
+    for (let i = 1; i <= numPages; i++) {
+      try {
+        const pg = await pdf.getPage(i);
+        const tc = await pg.getTextContent();
+        pages.push({ p: i, t: tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ').trim() });
+      } catch(_) { pages.push({ p:i, t:'' }); }
+      setSlotProg(n, 45 + (i/numPages)*40);
+    }
+    if (pages.map(p=>p.t).join('').trim().length < 100)
+      throw new Error('No readable text found. This PDF may be scanned or image-based.');
+    setSlotProg(n, 88);
+    docs[n].chunks = buildChunks(pages);
+    docs[n].title = title;
+    docs[n].pages = numPages;
+    docs[n].words = pages.reduce((s,p) => s + p.t.split(/\s+/).length, 0);
+    setSlotProg(n, 100);
+    setTimeout(() => onSlotReady(n), 280);
+  } catch(err) {
+    hideSlotProg(n); setBadge(null);
+    showPdfErr(n, err.message);
+  }
+}
+
+function buildChunks(pages) {
+  const out = []; let buf = [], w = 0, sp = 1;
+  for (const pg of pages) {
+    const words = pg.t.split(/\s+/).filter(x=>x);
+    for (const word of words) {
+      buf.push(word); w++;
+      if (w >= CHUNK_WORDS) {
+        out.push({ idx:out.length, text:buf.join(' '), s:sp, e:pg.p });
+        buf = buf.slice(-CHUNK_OVERLAP); w = buf.length; sp = pg.p;
+      }
+    }
+    sp = Math.min(sp, pg.p+1);
+  }
+  if (buf.length > 40) out.push({ idx:out.length, text:buf.join(' '), s:sp, e:pages[pages.length-1].p });
+  return out;
+}
+
+function onSlotReady(n) {
+  hideSlotProg(n);
+  document.getElementById('upArea'+n).style.display = 'none';
+  document.getElementById('di'+n).classList.add('on');
+  document.getElementById('diTitle'+n).textContent = docs[n].title;
+  document.getElementById('diPg'+n).textContent = docs[n].pages;
+  document.getElementById('diCk'+n).textContent = docs[n].chunks.length;
+  if (document.getElementById('diWd'+n)) document.getElementById('diWd'+n).textContent = docs[n].words.toLocaleString();
+  renderChunkList(n);
+  updateNavDoc();
+  if (n === 0) {
+    setBadge('Ready', 'ok');
+    document.getElementById('cin').disabled = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('qsInp').disabled = false;
+    document.getElementById('letterBtn').disabled = false;
+    clearChat(true);
+    const w = document.getElementById('welcome');
+    w.style.display = '';
+    w.querySelector('.wel-ttl').textContent = 'Document loaded — ask anything';
+    w.querySelector('.wel-txt').textContent = docs[0].chunks.length + ' sections indexed from "' + docs[0].title + '". Select your team above and ask any question.';
+    if (window.innerWidth <= 768) mobTab('chat');
+    else document.getElementById('cin').focus();
+    runHealthCheck(n);
+  }
+}
+
+function renderChunkList(n) {
+  const list = document.getElementById('ckList'+n);
+  list.innerHTML = '';
+  docs[n].chunks.forEach(ck => {
+    const d = document.createElement('div');
+    d.className = 'ck'; d.id = 'ck-'+n+'-'+ck.idx;
+    const pg = ck.s === ck.e ? 'Page '+ck.s : 'Pages '+ck.s+'–'+ck.e;
+    d.innerHTML = '<div class="ck-pg">§'+(ck.idx+1)+' · '+pg+'</div><div class="ck-prev">'+esc(ck.text.slice(0,160))+'…</div>';
+    list.appendChild(d);
+  });
+}
+
+function updateNavDoc() {
+  const el = document.getElementById('navDoc');
+  if (compareMode && docs[0].title && docs[1].title) {
+    el.textContent = 'Comparing: ' + docs[0].title + ' vs ' + docs[1].title;
+    el.classList.add('on');
+  } else if (docs[0].title) {
+    el.textContent = docs[0].title; el.classList.add('on');
+  } else {
+    el.textContent = 'No document loaded'; el.classList.remove('on');
+  }
+}
+
+// ─── Health check ─────────────────────────────────────────────────────────────
+async function runHealthCheck(n) {
+  const sample = docs[n].chunks.slice(0,5).map(c=>c.text).join('\n\n').slice(0,4000);
+  const hid = 'hcard-'+n;
+  const chat = document.getElementById('chat');
+  const card = document.createElement('div');
+  card.className = 'hcard'; card.id = hid;
+  card.innerHTML = '<div class="hcard-title"><span class="hcard-title-ico">◈</span>Document Health Check</div><div class="hloading"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span>Analysing document…</span></div>';
+  const welcome = document.getElementById('welcome');
+  chat.insertBefore(card, welcome.nextSibling);
+
+  try {
+    const res = await callRaw(`Analyse this document excerpt. Return ONLY valid JSON with no markdown formatting:
+{"risks":{"ok":true,"note":"brief one-line summary"},"regulatory":{"ok":false,"note":"brief one-line summary"},"performance":{"ok":true,"note":"brief one-line summary"},"manager":{"ok":true,"note":"brief one-line summary"},"fees":{"ok":true,"note":"brief one-line summary"},"objective":{"ok":true,"note":"brief one-line summary"}}
+
+Document:
+${sample}`, 500);
+    const clean = res.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+    const d = JSON.parse(clean);
+    const checks = [
+      { key:'risks', label:'Key risks identified' },
+      { key:'regulatory', label:'Regulatory obligations' },
+      { key:'performance', label:'Performance data present' },
+      { key:'manager', label:'Fund manager named' },
+      { key:'fees', label:'Fees & charges present' },
+      { key:'objective', label:'Investment objective stated' }
+    ];
+    card.innerHTML = '<div class="hcard-title"><span class="hcard-title-ico">◈</span>Document Health Check</div><div class="hgrid">' +
+      checks.map(c => `<div class="hi"><div class="hi-ico">${d[c.key]?.ok ? '✅':'❌'}</div><div><div class="hi-lbl">${c.label}</div><div class="hi-note">${esc(d[c.key]?.note||'No data')}</div></div></div>`).join('') +
+      '</div>';
+  } catch(_) { card.remove(); }
+}
+
+// ─── Relevance ────────────────────────────────────────────────────────────────
+const STOP = new Set('the a an and or but in on at to for of with by from is was are were be been have has had do does did will would could should may might i you he she we they their our your its not no so as if then than more all each both this that these those what which who how when where why'.split(' '));
+
+function tok(s){ return s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w=>w.length>2&&!STOP.has(w)); }
+
+function scoreChunk(chunk, qt) {
+  const ct = tok(chunk.text); const freq={};
+  ct.forEach(w=>freq[w]=(freq[w]||0)+1);
+  let s=0;
+  for(const q of qt){
+    if(freq[q]) s+=(freq[q]/ct.length)*120+2;
+    for(const c in freq) if(c!==q&&(c.includes(q)||q.includes(c))) s+=.4;
+  }
+  return s;
+}
+
+function relevant(q) {
+  const qt = tok(q);
+  const all = [];
+  if (compareMode) {
+    [0,1].forEach(di => { if(docs[di].chunks.length) docs[di].chunks.forEach(c=>all.push({...c,di})); });
+  } else {
+    docs[0].chunks.forEach(c=>all.push({...c,di:0}));
+  }
+  if (!all.length) return { chunks:[], confidence:'Low', topScore:0 };
+  const scored = all.map(c=>({c,sc:scoreChunk(c,qt)})).sort((a,b)=>b.sc-a.sc);
+  const topScore = scored[0]?.sc||0;
+  const confidence = topScore>8?'High':topScore>2?'Medium':'Low';
+  const chunks = scored.slice(0,MAX_CHUNKS).map(x=>x.c).sort((a,b)=>a.di!==b.di?a.di-b.di:a.s-b.s);
+  return { chunks, confidence, topScore };
+}
+
+function timeSaved(chunks) {
+  const pages=new Set(); chunks.forEach(c=>{for(let p=c.s;p<=c.e;p++)pages.add(p);});
+  const mins=Math.max(2,Math.round(pages.size*.75+1.5));
+  return '~'+mins+' min'+(mins!==1?'s':'');
+}
+
+// ─── Chat ─────────────────────────────────────────────────────────────────────
+function initChat() {
+  const cin = document.getElementById('cin');
+  document.getElementById('sendBtn').onclick = send;
+  cin.onkeydown = e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} };
+  cin.oninput = () => { cin.style.height='auto'; cin.style.height=Math.min(cin.scrollHeight,110)+'px'; };
+}
+
+async function send() {
+  const cin = document.getElementById('cin');
+  const q = cin.value.trim();
+  if (!q || busy || !docs[0].chunks.length) return;
+  busy = true;
+  cin.value = ''; cin.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('clearBtn').classList.remove('hide');
+  addUserMsg(q);
+  chatHistory.push({ role:'user', content:q });
+  const loader = addLoader();
+  try {
+    const rel = relevant(q);
+    lightChunks(rel.chunks);
+    const ctx = rel.chunks.map((c,i)=>{
+      const dl = compareMode ? 'Document '+(c.di+1)+' — ' : '';
+      const pg = c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
+      return '[Source '+(i+1)+' — '+dl+pg+']\n'+c.text;
+    }).join('\n\n---\n\n');
+    const ans = await callClaude(q, ctx);
+    loader.remove();
+    addAIMsg(ans, rel.chunks, rel.confidence);
+    chatHistory.push({ role:'assistant', content:ans, srcs:rel.chunks, confidence:rel.confidence });
+    document.getElementById('briefBtn').disabled = false;
+    updateMemPanel(q, rel.chunks);
+  } catch(err) {
+    loader.remove();
+    addUserMsg('⚠ Error: '+err.message+'. Check your API key and try again.');
+    toast(err.message);
+  }
+  busy = false;
+  document.getElementById('sendBtn').disabled = false;
+  cin.disabled = false; cin.focus();
+}
+
+async function callClaude(q, ctx) {
+  const sys = SYS_BASE + '\n\nTeam context: ' + TEAMS[currentTeam].prompt;
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'x-api-key':KEY,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({ model:MODEL, max_tokens:1400, system:sys,
+      messages:[{role:'user',content:'Document excerpts:\n\n'+ctx+'\n\n---\n\nQuestion: '+q}]})
+  });
+  if(!r.ok){const e=await r.json().catch(()=>{});throw new Error(e?.error?.message||'API error '+r.status);}
+  return (await r.json()).content[0].text;
+}
+
+async function callRaw(userMsg, maxTokens=600) {
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'x-api-key':KEY,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({ model:MODEL, max_tokens:maxTokens,
+      messages:[{role:'user',content:userMsg}]})
+  });
+  if(!r.ok){const e=await r.json().catch(()=>{});throw new Error(e?.error?.message||'API error '+r.status);}
+  return (await r.json()).content[0].text;
+}
+
+function addUserMsg(txt) {
+  const chat = document.getElementById('chat');
+  const d = document.createElement('div'); d.className='msg';
+  d.innerHTML='<div class="msg-hd"><div class="av av-u">You</div><div class="msg-role">You</div></div><div class="bubble bbl-u">'+fmt(txt)+'</div>';
+  chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
+}
+
+function addAIMsg(txt, srcs, confidence) {
+  const chat = document.getElementById('chat');
+  const d = document.createElement('div'); d.className='msg';
+  const cClass = confidence==='High'?'conf-h':confidence==='Medium'?'conf-m':'conf-l';
+  const cIcon = confidence==='High'?'●':confidence==='Medium'?'◐':'○';
+  const srcHtml = srcs.slice(0,3).map((c,i)=>{
+    const dl = compareMode?'Doc '+(c.di+1)+' · ':'';
+    const pg = c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
+    return '<div class="src"><div class="src-lbl">Source '+(i+1)+' · '+dl+pg+'</div><div class="src-txt">"'+esc(c.text.slice(0,200).replace(/\s+/g,' ').trim())+'…"</div></div>';
+  }).join('');
+  const saved = timeSaved(srcs);
+  d.innerHTML=
+    '<div class="msg-hd"><div class="av av-a">AI</div><div class="msg-role">Document Intelligence</div>'+
+    '<span class="conf '+cClass+'">'+cIcon+' '+confidence+'</span>'+
+    '<button class="copy-btn">⎘ Copy</button></div>'+
+    '<div class="bubble bbl-a">'+fmt(txt)+'</div>'+
+    (srcHtml?'<div class="srcs">'+srcHtml+'</div>':'')+
+    '<div class="time-saved">⏱ Est. time saved: '+saved+'</div>';
+  d.querySelector('.copy-btn').onclick=function(){
+    copyText(txt,this);
+  };
+  chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
+}
+
+function addLoader() {
+  const chat=document.getElementById('chat');
+  const d=document.createElement('div'); d.className='loading';
+  d.innerHTML='<div class="av av-a" style="flex-shrink:0">AI</div><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="load-txt">Analysing document sections…</div>';
+  chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d;
+}
+
+function lightChunks(chunks) {
+  litChunks.forEach(({n,idx})=>{const e=document.getElementById('ck-'+n+'-'+idx);if(e)e.classList.remove('lit');});
+  litChunks = chunks.map(c=>({n:c.di,idx:c.idx}));
+  litChunks.forEach(({n,idx})=>{const e=document.getElementById('ck-'+n+'-'+idx);if(e)e.classList.add('lit');});
+  if(litChunks.length){const first=document.getElementById('ck-'+litChunks[0].n+'-'+litChunks[0].idx);if(first)first.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
+// ─── Clear chat ───────────────────────────────────────────────────────────────
+function clearChat(silent) {
+  const chat = document.getElementById('chat');
+  Array.from(chat.children).forEach(el=>{
+    if(!el.id&&!el.classList.contains('hcard')) el.remove();
+  });
+  const w=document.getElementById('welcome'); w.style.display='';
+  if(docs[0].chunks.length){
+    w.querySelector('.wel-ttl').textContent='Document loaded — ask anything';
+    w.querySelector('.wel-txt').textContent=docs[0].chunks.length+' sections indexed. Ask any question and I\'ll answer strictly from the document.';
+  } else {
+    w.querySelector('.wel-ttl').textContent='Ready to analyse your document';
+    w.querySelector('.wel-txt').textContent='Upload a Jupiter fund factsheet to get started.';
+  }
+  lightChunks([]);
+  chatHistory=[]; memHistory=[]; answerN=0;
+  if(memOpen) renderMemPanel();
+  if(!silent) document.getElementById('clearBtn').classList.add('hide');
+  document.getElementById('briefBtn').disabled=true;
+}
+
+// ─── Memory panel ─────────────────────────────────────────────────────────────
+function toggleMem() {
+  memOpen=!memOpen;
+  document.getElementById('mp').classList.toggle('closed',!memOpen);
+  document.getElementById('memBtn').classList.toggle('act',memOpen);
+  if(memOpen) renderMemPanel();
+}
+
+function updateMemPanel(q, chunks) {
+  answerN++; memHistory.push({n:answerN,q,chunks});
+  if(memOpen) renderMemPanel();
+}
+
+function renderMemPanel() {
+  const body=document.getElementById('mpBody');
+  if(!memHistory.length){body.innerHTML='<div class="mp-empty">Retrieved document sections will appear here as you ask questions.</div>';return;}
+  body.innerHTML='';
+  [...memHistory].reverse().forEach(({n,q,chunks})=>{
+    const entry=document.createElement('div'); entry.className='mp-entry';
+    entry.innerHTML='<div class="mp-entry-q"><span class="mp-n">A'+n+'</span>'+esc(q.slice(0,65))+(q.length>65?'…':'')+'</div>'+
+      chunks.map(c=>{
+        const dl=compareMode?'Doc '+(c.di+1)+' · ':'';
+        const pg=c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
+        return '<div class="mp-chunk"><div class="mp-pg">'+dl+pg+'</div><div class="mp-txt">'+esc(c.text.slice(0,200))+'</div></div>';
+      }).join('');
+    body.appendChild(entry);
+  });
+}
+
+// ─── Briefing pack ────────────────────────────────────────────────────────────
+function openBriefing() {
+  if(!chatHistory.length) return;
+  const title=docs[0].title||'Unknown Document';
+  const date=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const lines=['JUPITER ASSET MANAGEMENT','DOCUMENT INTELLIGENCE BRIEFING','═'.repeat(54),'',
+    'Document: '+title,(compareMode&&docs[1].title?'Comparison: '+docs[1].title:''),
+    'Team: '+TEAMS[currentTeam].name,'Date: '+date,'','═'.repeat(54),''].filter(l=>l!==undefined);
+  let qn=0;
+  chatHistory.forEach(({role,content,srcs,confidence})=>{
+    if(role==='user'){qn++;lines.push('Q'+qn+': '+content,'');}
+    else{
+      lines.push('Answer'+(confidence?' ['+confidence+' confidence]':'')+':',content,'');
+      if(srcs?.length) lines.push('Sources: '+srcs.map(c=>{const dl=compareMode?'Doc '+(c.di+1)+' · ':'';return dl+(c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e);}).join(', '),'');
+      lines.push('─'.repeat(54),'');
+    }
+  });
+  document.getElementById('briefPre').textContent=lines.join('\n');
+  document.getElementById('briefModal').classList.remove('hide');
+}
+
+// ─── Client letter ────────────────────────────────────────────────────────────
+function openLetter() {
+  resetLetter();
+  document.getElementById('letterModal').classList.remove('hide');
+}
+
+function resetLetter() {
+  document.getElementById('letterCfg').style.display='';
+  document.getElementById('letterOut').classList.add('hide');
+  document.getElementById('letterFoot').classList.add('hide');
+}
+
+async function runGenLetter() {
+  const btn=document.getElementById('genLetBtn');
+  btn.disabled=true; btn.textContent='Generating…';
+  const ctx=docs[0].chunks.slice(0,7).map(c=>c.text).join('\n\n').slice(0,5000);
+  const typeDesc={retail:'retail investor (private individual, non-professional)',institutional:'institutional investor (pension fund, insurance company, or similar entity)',wholesale:'wholesale or professional investor (financial adviser, wealth manager, or regulated professional client)'}[selectedLetterType];
+  try {
+    const letter=await callRaw(`Write a professional investor update letter for Jupiter Asset Management addressed to a ${typeDesc}.
+
+Based strictly on this fund document:
+${ctx}
+
+Requirements:
+- Professional tone for the investor type (simpler language for retail, technical detail for institutional/wholesale)
+- Date line: [Date] | Salutation: Dear [Client Name],
+- 3-4 paragraphs: fund overview/objective, current positioning, performance context if available, forward-looking statement
+- Sign-off: Yours sincerely, [Fund Manager], Jupiter Asset Management
+- Base all content strictly on the document — do not invent figures
+- If specific data is unavailable, acknowledge gracefully`, 1300);
+    document.getElementById('letterPre').textContent=letter;
+    document.getElementById('letterCfg').style.display='none';
+    document.getElementById('letterOut').classList.remove('hide');
+    document.getElementById('letterFoot').classList.remove('hide');
+  } catch(err) { toast('Letter generation failed: '+err.message); }
+  btn.disabled=false; btn.textContent='Generate Letter →';
+}
+
+// ─── Modals ───────────────────────────────────────────────────────────────────
+function closeMod(id) { document.getElementById(id).classList.add('hide'); }
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function setSlotProg(n,p){document.getElementById('progWrap'+n).classList.remove('hide');document.getElementById('prog'+n).style.width=p+'%';}
+function hideSlotProg(n){document.getElementById('progWrap'+n).classList.add('hide');}
+function setNote(n,t){document.getElementById('upNote'+n).textContent=t;}
+function setBadge(txt,type){
+  const b=document.getElementById('navBadge');
+  if(!txt){b.classList.add('hide');return;}
+  b.textContent=txt;b.className='badge badge-'+type;
+}
+function toast(msg){
+  document.querySelectorAll('.toast').forEach(e=>e.remove());
+  const d=document.createElement('div');d.className='toast';d.textContent=msg;
+  document.body.appendChild(d);setTimeout(()=>d.remove(),5500);
+}
+function copyText(txt,btn){
+  navigator.clipboard.writeText(txt).then(()=>{
+    const orig=btn.textContent;btn.textContent='✓ Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  }).catch(()=>toast('Copy failed — select text manually.'));
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmt(s){
+  return esc(s)
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .replace(/`([^`]+)`/g,'<code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;font-size:12px">$1</code>')
+    .replace(/\n/g,'<br>');
+}
+
+bootKey();
+</script>
+</body>
+</html>

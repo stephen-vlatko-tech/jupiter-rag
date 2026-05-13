@@ -1,0 +1,88 @@
+You are a senior product engineer at a top-tier enterprise software firm with deep expertise in financial technology, document intelligence, and AI-powered tooling. You are building a production-ready internal tool for Jupiter Asset Management, one of the UK's leading active asset managers. Your standard is high: the UI must look like it belongs in a Bloomberg terminal or a tier-one investment bank's internal portal. No startup aesthetics, no rounded pastel cards, no generic SaaS feel. Every design decision should reinforce that this is a serious financial tool built for professionals.
+Build a complete, single-file RAG (Retrieval Augmented Generation) application that allows Jupiter staff to interrogate fund documents in plain English. The output must be a single self-contained HTML file with all JavaScript and CSS inline. No external dependencies except PDF.js and the Anthropic API.
+The person using this tool day-to-day is a fund manager, compliance officer, or client relations manager at Jupiter. They are time-poor, detail-oriented, and have zero tolerance for tools that hallucinate, crash, or feel unfinished. Every answer must be grounded in the document. Every failure must be handled gracefully. Every interaction must feel instant and polished.
+The person seeing this demo for the first time is an AI transformation lead who needs to understand the business case in under 60 seconds without any technical explanation. The tool must sell itself.
+API requirements:
+
+Anthropic API called directly from the browser via fetch
+Always include the header anthropic-dangerous-direct-browser-access: true in every single API call without exception
+Model: claude-sonnet-4-20250514
+Max tokens: 1500
+
+API key gate:
+
+If no API key is stored in sessionStorage, show a clean full-screen key entry screen as the absolute first thing that renders — nothing else should be visible
+On entry, validate the key format before storing
+Store in sessionStorage only — never in localStorage, never hardcoded
+
+RAG pipeline — this is the technical core, build it properly:
+
+Extract text from PDFs page by page using PDF.js
+Chunk extracted text into segments of approximately 420 words with 55 word overlap between chunks to preserve context across boundaries
+At query time score all chunks using TF-IDF to find the most semantically relevant sections
+Pass only the top 8 ranked chunks to Claude, each labelled with its source page number
+Claude must answer strictly from the provided chunks only — the system prompt must explicitly forbid drawing on general knowledge or training data
+Every answer must include a citation showing which page and section it came from
+If the answer is not present in the chunks Claude must say so explicitly — hallucination is a hard failure mode for this audience
+Chunk and prioritise gracefully for large documents — never crash or timeout on a long PDF
+
+Document health check:
+Immediately after a PDF loads run a single API call that checks for the following and displays results as a dashboard above the chat before any questions are asked. Show a green tick with a one line summary if present, red cross if absent:
+
+Key risks identified
+Regulatory obligations found
+Performance data present
+Fund manager named
+Fees and charges present
+Investment objective stated
+
+Pre-load behaviour:
+Always show the upload zone on load. Do not attempt to auto-fetch any document. The user should always upload their own PDF manually.
+Team selector:
+A dropdown at the top of the chat panel that switches both the system prompt sent to Claude and the full question bank used for predictive suggestions. Switching teams clears the chat and shows a brief confirmation message. The teams are:
+Investment Team
+System prompt: You are analysing this document for a fund manager at Jupiter Asset Management. Be precise, data-focused, and highlight anything material to portfolio positioning, performance attribution, or risk. Never speculate beyond what the document states.
+Questions: 'What are the top 10 holdings?', 'What is the fund's geographic exposure?', 'Which sectors are overweight or underweight?', 'How has the fund performed versus its benchmark?', 'What is the fund's active share?', 'What is the portfolio turnover rate?', 'What are the largest country allocations?', 'What is the fund's volatility compared to the index?', 'What are the top contributors to performance this quarter?', 'What are the top detractors from performance?', 'What is the fund's Sharpe ratio?', 'How concentrated is the portfolio?', 'What is the fund's exposure to emerging markets?', 'What is the average market cap of holdings?', 'Has the fund manager made any significant changes to positioning recently?', 'What is the fund's currency exposure?', 'What is the beta of the portfolio?', 'What is the fund's drawdown history?', 'What is the ESG rating of the fund?', 'What are the fund's stewardship and voting policies?'
+Compliance Team
+System prompt: You are analysing this document for a compliance officer at Jupiter Asset Management, which is regulated by the FCA. Flag every regulatory obligation, restriction, and risk disclosure explicitly and precisely. If something is absent that you would expect to see in a UCITS-compliant fund document, note that too.
+Questions: 'What are the key regulatory risks mentioned?', 'What FCA obligations are referenced in this document?', 'Are there any material risk warnings?', 'What are the investment restrictions for this fund?', 'What is the fund's regulatory status?', 'Is the fund UCITS compliant?', 'What are the liquidity risk disclosures?', 'What leverage limits apply to this fund?', 'Are there any conflicts of interest disclosed?', 'What are the anti-money laundering provisions?', 'What are the key risks listed in the KIID?', 'What is the fund's risk and reward profile score?', 'Are there any sanctions or exclusion policies?', 'What are the reporting obligations mentioned?', 'What are the redemption gate provisions?', 'Are there any side pocket arrangements?', 'What are the valuation policies?', 'What are the fund's complaint handling procedures?', 'What regulatory filings are referenced?', 'What are the data protection obligations mentioned?'
+Marketing Team
+System prompt: You are analysing this document for the marketing team at Jupiter Asset Management. Focus on clarity, client-friendly language, and identifying the strongest differentiators and selling points. Your output should be usable directly in investor communications with minimal editing.
+Questions: 'Summarise this fund in plain English for a retail investor', 'What are the key selling points of this fund?', 'What makes this fund differentiated from competitors?', 'Write a one paragraph fund description', 'What is the fund's investment objective in simple terms?', 'What type of investor is this fund suitable for?', 'What is the fund's track record?', 'What awards or recognition has this fund received?', 'What is the fund manager's investment philosophy?', 'How would you describe the fund's strategy in one sentence?', 'What is the fund's risk profile in plain English?', 'What are the main reasons an investor would choose this fund?', 'What is the minimum investment amount?', 'How long has the fund been running?', 'Who manages this fund and what is their background?', 'What are the fund's charges and fees in plain English?', 'What is the fund size?', 'How often does the fund pay income?', 'Is this fund suitable for ISA investment?', 'What are the tax implications for UK investors?'
+Client Relations Team
+System prompt: You are analysing this document for a client relations manager at Jupiter Asset Management. Prioritise information that helps them communicate clearly and confidently with investors. Be concise, reassuring, and factual.
+Questions: 'What should I tell an institutional client about this fund?', 'What are the main risks to communicate to clients?', 'How has the fund performed recently?', 'What is the minimum investment?', 'What are the dealing and settlement terms?', 'What reporting does the fund provide to investors?', 'What are the redemption terms?', 'How does the fund handle large redemptions?', 'What is the fund's liquidity profile?', 'Who is the fund's target investor?', 'What are the share classes available?', 'What currencies are available?', 'How do I explain the fund's underperformance to a client?', 'What are the key differences between share classes?', 'What is the total expense ratio?', 'How often is the fund valued?', 'What is the fund's distribution policy?', 'How do I subscribe to this fund?', 'What documentation does a new investor need to provide?', 'What are the anti-dilution levy provisions?'
+Operations Team
+System prompt: You are analysing this document for an operations team member at Jupiter Asset Management. Focus exclusively on operational and administrative details. Be precise about dates, deadlines, codes, and procedural requirements.
+Questions: 'What are the dealing deadlines?', 'What are the fees and charges?', 'What is the fund domicile and structure?', 'Who are the key service providers?', 'What is the fund's ISIN?', 'What is the cut-off time for same day dealing?', 'Who is the fund's depositary?', 'Who is the fund administrator?', 'What is the fund's base currency?', 'What are the settlement terms?', 'What are the swing pricing provisions?', 'What are the anti-dilution levy trigger points?', 'Who is the fund's auditor?', 'What are the NAV calculation terms?', 'What are the subscription and redemption minimums?', 'What platforms is the fund available on?', 'What are the transfer agent details?', 'What are the fund's Bloomberg and Reuters codes?', 'What are the hedging arrangements for currency share classes?', 'What are the fund's distribution dates?'
+Predictive question bar:
+
+A prominent search input at the top of the chat panel replaces all static chips
+As the user types, show a live-filtering dropdown of up to 6 matching questions from the active team's bank using fuzzy matching
+When the input is empty show the top 6 default questions for the active team
+Clicking a suggestion populates and immediately submits the question
+Free-form questions that match nothing in the bank are still submitted normally
+Switching teams resets the bank and clears the chat instantly
+
+Each answer must display:
+
+The answer text
+Source citations with page number and highlighted excerpt in gold
+A confidence indicator: High, Medium, or Low based on how directly the answer is supported by the retrieved chunks. High means explicitly stated, Medium means implied or partial, Low means weakly inferred
+An estimated time saved: a rough calculation of how long this would have taken to find manually, shown simply as 'Est. time saved: ~4 mins'
+A copy button
+
+Conversation memory panel:
+A collapsible sidebar showing exactly which document chunks were passed to Claude for each answer, with page numbers and short excerpts. Purpose: make the RAG process transparent and explainable to a non-technical observer watching the demo.
+Additional controls:
+
+Reset/clear chat button that wipes the conversation without a page refresh
+Load second document button that allows switching PDFs mid-session without refreshing
+
+Comparison mode:
+A toggle between single document mode and comparison mode. In comparison mode two PDFs are loaded and every question draws from both simultaneously. All source references clearly labelled as Document 1 or Document 2.
+Auto-generated briefing pack:
+A Generate Briefing Pack button that appears after at least one question has been answered. Clicking it compiles the full conversation — questions, answers, source references, confidence levels — into a clean formatted output ready to copy directly into an email or Word document.
+Client letter drafting mode:
+A button in the chat panel that opens a letter drafting interface. The user selects client type from retail, institutional, or wholesale. Claude generates a complete draft investor update letter based on the loaded factsheet, appropriately toned for the selected client type, ready to copy and edit.
+Build the entire application as a single self-contained HTML file. All CSS and JavaScript must be inline. The only permitted external resources are PDF.js from cdnjs and the Anthropic API endpoint. Output nothing except the complete HTML file.
