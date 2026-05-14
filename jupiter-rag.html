@@ -13,7 +13,7 @@
 html,body{height:100%;overflow:hidden;}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;}
 
-/* ── API Key ── */
+/* API Key */
 #keyScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;animation:fadeIn .4s ease;}
 .key-card{width:460px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:48px;box-shadow:0 24px 64px rgba(0,0,0,.6);}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:36px;}
@@ -32,14 +32,14 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .key-note{margin-top:18px;font-size:11px;color:var(--txt3);text-align:center;line-height:1.7;}
 .key-note a{color:var(--blue2);text-decoration:none;}
 
-/* ── App shell ── */
+/* App shell */
 #app{display:none;height:100vh;flex-direction:column;}
 #app.on{display:flex;}
 
-/* ── Navbar ── */
+/* Navbar */
 .nav{height:52px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:9px;flex-shrink:0;}
 .nav-brand{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.nav-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:justify;font-weight:800;font-size:12px;color:#050B18;}
+.nav-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#050B18;}
 .nav-name{font-size:13px;font-weight:700;}
 .nav-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}
 .nav-doc{font-size:11.5px;color:var(--txt2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
@@ -53,13 +53,13 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .nav-btn.act{border-color:var(--gold);color:var(--gold);}
 .nav-btn.danger:hover{border-color:var(--red);color:#FCA5A5;}
 
-/* ── Team bar ── */
+/* Team bar */
 .team-bar{background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:stretch;flex-shrink:0;overflow-x:auto;}
 .tt{background:none;border:none;border-bottom:2px solid transparent;padding:9px 14px;font-size:11.5px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
 .tt:hover{color:var(--txt);}
 .tt.active{color:var(--gold);border-bottom-color:var(--gold);}
 
-/* ── Question search bar ── */
+/* Question search bar */
 .qbar-wrap{position:relative;padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
 .qs-row{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0 12px;transition:border-color .2s;}
 .qs-row:focus-within{border-color:var(--blue);}
@@ -75,41 +75,32 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .qs-item:hover,.qs-item.foc{background:rgba(37,99,235,.12);color:var(--txt);}
 .qs-item-arrow{color:var(--txt3);font-size:11px;flex-shrink:0;}
 
-/* ── Mobile tabs ── */
+/* Mobile tabs */
 .mob-tabs{display:none;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
 .mob-tab-row{display:flex;}
 .mob-tab{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:10px;font-size:12px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
 .mob-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 
-/* ── Body ── */
+/* Body */
 .body{flex:1;display:flex;overflow:hidden;}
 
-/* ── Left panel (PDF viewer) ── */
-.lp{width:420px;min-width:340px;border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;}
-.lp-top{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.lp-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);margin-right:auto;}
-
-/* Fund selector dropdown */
-.fund-sel-wrap{flex:1;min-width:0;}
-.fund-sel{width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:5px 9px;color:var(--txt);font-family:'Inter',sans-serif;font-size:12px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A92B6' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px;}
-.fund-sel:focus{border-color:var(--blue);}
-.fund-sel option{background:var(--panel);}
-.fund-sel.hide{display:none;}
-
-.cmp-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 9px;font-size:11px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+/* Left panel */
+.lp{width:360px;min-width:320px;border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;}
+.lp-top{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.lp-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);}
+.cmp-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
 .cmp-btn:hover{border-color:var(--blue2);color:var(--txt);}
 .cmp-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,168,67,.07);}
+.slots-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.doc-slot{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+.doc-slot+.doc-slot{border-top:2px solid var(--border2);}
+.slot-tag{padding:5px 14px;background:rgba(212,168,67,.07);border-bottom:1px solid var(--border);flex-shrink:0;display:none;}
+.slot-tag.on{display:block;}
+.slot-tag-lbl{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gold);}
 
-/* Slot tabs (single / compare) */
-.slot-tabs{display:none;border-bottom:1px solid var(--border);flex-shrink:0;}
-.slot-tabs.on{display:flex;}
-.slot-tab{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:7px;font-size:11px;font-weight:600;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;text-align:center;transition:all .2s;}
-.slot-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-
-/* PDF viewer */
-.pdf-viewer-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
-.pdf-upload-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;}
-.up-zone{width:100%;border:2px dashed var(--border2);border-radius:10px;padding:28px 18px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(37,99,235,.03);}
+/* Upload */
+.up-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px;gap:12px;}
+.up-zone{width:100%;border:2px dashed var(--border2);border-radius:10px;padding:26px 18px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(37,99,235,.03);}
 .up-zone:hover,.up-zone.over{border-color:var(--blue);background:rgba(37,99,235,.08);}
 .up-ico{font-size:32px;margin-bottom:10px;}
 .up-ttl{font-size:13px;font-weight:600;margin-bottom:4px;}
@@ -118,45 +109,43 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .prog-wrap{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
 .prog-wrap.hide{display:none;}
 .prog{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:2px;transition:width .3s ease;width:0%;}
-.pdf-err{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:16px;text-align:center;width:100%;}
+.pdf-err{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:16px;text-align:center;}
 .pdf-err-ico{font-size:24px;margin-bottom:8px;}
 .pdf-err-ttl{font-size:12.5px;font-weight:600;color:#FCA5A5;margin-bottom:5px;}
 .pdf-err-msg{font-size:11px;color:var(--txt2);line-height:1.6;margin-bottom:12px;}
 .pdf-err-btn{background:none;border:1px solid rgba(239,68,68,.4);border-radius:5px;padding:6px 14px;font-size:11.5px;color:#FCA5A5;cursor:pointer;font-family:'Inter',sans-serif;}
 .pdf-err-btn:hover{background:rgba(239,68,68,.1);}
 
-/* PDF canvas area */
-.pdf-canvas-scroll{flex:1;overflow-y:auto;overflow-x:auto;background:#1a1a2e;position:relative;}
-.pdf-pages-container{display:flex;flex-direction:column;align-items:center;padding:16px 8px;gap:12px;min-height:100%;}
-.pdf-page-wrap{position:relative;display:inline-block;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,.5);}
-.pdf-page-wrap canvas{display:block;}
-.pdf-page-num{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--txt3);white-space:nowrap;}
-/* Highlight overlay canvas */
-.pdf-hl-canvas{position:absolute;top:0;left:0;pointer-events:none;}
-/* Page nav bar */
-.pdf-nav{display:none;align-items:center;justify-content:center;gap:10px;padding:7px 12px;background:var(--bg2);border-top:1px solid var(--border);flex-shrink:0;}
-.pdf-nav.on{display:flex;}
-.pdf-nav-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:12px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
-.pdf-nav-btn:hover:not(:disabled){border-color:var(--blue2);color:var(--txt);}
-.pdf-nav-btn:disabled{opacity:.3;cursor:not-allowed;}
-.pdf-nav-pg{font-size:11.5px;color:var(--txt2);min-width:80px;text-align:center;}
-.pdf-nav-jump{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:3px 6px;width:44px;color:var(--txt);font-family:'Inter',sans-serif;font-size:12px;text-align:center;outline:none;}
-.pdf-nav-jump:focus{border-color:var(--blue);}
-/* Change doc button inside viewer */
-.pdf-change-btn{background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:10.5px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;flex-shrink:0;}
-.pdf-change-btn:hover{border-color:var(--blue2);color:var(--txt);}
+/* Doc info */
+.di{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.di.on{display:flex;}
+.di-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;flex-shrink:0;}
+.di-head-txt{flex:1;min-width:0;}
+.di-title{font-size:12.5px;font-weight:600;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.di-meta{display:flex;gap:12px;flex-wrap:wrap;}
+.meta-item{font-size:10.5px;color:var(--txt2);}
+.meta-val{color:var(--gold);font-weight:600;}
+.di-change{background:none;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:10.5px;color:var(--txt2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.di-change:hover{border-color:var(--blue2);color:var(--txt);}
+.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);padding:10px 14px 6px;flex-shrink:0;}
+.chunks{flex:1;overflow-y:auto;padding:0 8px 12px;}
+.ck{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 11px;margin-bottom:5px;cursor:pointer;transition:all .2s;}
+.ck:hover{border-color:var(--border2);}
+.ck.lit{border-color:var(--gold);background:rgba(212,168,67,.07);}
+.ck-pg{font-size:9.5px;font-weight:700;letter-spacing:.5px;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.ck-prev{font-size:11px;color:var(--txt2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 
-/* ── Right panel ── */
+/* Right panel */
 .rp{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);min-width:0;}
 
-/* ── Chat ── */
+/* Chat */
 .chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:18px;}
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;gap:12px;}
 .wel-ico{font-size:44px;opacity:.35;}
 .wel-ttl{font-size:16px;font-weight:600;color:var(--txt2);}
 .wel-txt{font-size:13px;color:var(--txt3);line-height:1.65;max-width:340px;}
 
-/* ── Health dashboard ── */
+/* Health dashboard */
 .hcard{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;animation:slideUp .3s ease;}
 .hcard-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--txt3);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
 .hcard-title-ico{color:var(--gold);}
@@ -167,7 +156,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .hi-note{font-size:10.5px;color:var(--txt2);line-height:1.4;}
 .hloading{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--txt2);padding:4px 0;}
 
-/* ── Messages ── */
+/* Messages */
 .msg{display:flex;flex-direction:column;gap:6px;animation:slideUp .3s ease;}
 .msg-hd{display:flex;align-items:center;gap:7px;}
 .av{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
@@ -185,14 +174,12 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .bbl-u{background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.18);border-radius:11px 11px 3px 11px;}
 .bbl-a{background:var(--panel);border:1px solid var(--border);border-radius:11px 11px 11px 3px;}
 .srcs{display:flex;flex-direction:column;gap:6px;margin-top:2px;}
-.src{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.18);border-left:3px solid var(--gold);border-radius:0 7px 7px 0;padding:8px 12px;cursor:pointer;transition:background .2s;}
-.src:hover{background:rgba(212,168,67,.1);}
+.src{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.18);border-left:3px solid var(--gold);border-radius:0 7px 7px 0;padding:8px 12px;}
 .src-lbl{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
 .src-txt{font-size:11.5px;color:var(--txt2);line-height:1.5;font-style:italic;}
-.src-jump{font-size:9.5px;color:var(--txt3);margin-top:3px;}
 .time-saved{display:flex;align-items:center;gap:6px;padding:5px 11px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:20px;font-size:10.5px;color:var(--green);font-weight:500;align-self:flex-start;}
 
-/* ── Loading ── */
+/* Loading */
 .loading{display:flex;align-items:center;gap:10px;padding:13px 15px;background:var(--panel);border:1px solid var(--border);border-radius:11px;}
 .dots{display:flex;gap:4px;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:dp 1.4s ease-in-out infinite;}
@@ -200,7 +187,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .dot:nth-child(3){animation-delay:.4s;}
 .load-txt{font-size:13px;color:var(--txt2);}
 
-/* ── Input bar ── */
+/* Input bar */
 .cin-bar{padding:14px 18px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
 .cin-wrap{display:flex;gap:9px;align-items:flex-end;}
 .cin{flex:1;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--txt);font-family:'Inter',sans-serif;font-size:13.5px;outline:none;resize:none;min-height:42px;max-height:110px;transition:border-color .2s;line-height:1.5;}
@@ -215,7 +202,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .act-btn:disabled{opacity:.3;cursor:not-allowed;}
 .cin-hint{font-size:10.5px;color:var(--txt3);margin-left:auto;}
 
-/* ── Memory panel ── */
+/* Memory panel */
 .mp{width:270px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;transition:width .25s ease,opacity .25s ease;}
 .mp.closed{width:0;opacity:0;border-left:none;}
 .mp-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
@@ -226,13 +213,12 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .mp-entry{margin-bottom:14px;}
 .mp-entry-q{font-size:10.5px;color:var(--txt2);margin-bottom:6px;display:flex;align-items:baseline;gap:6px;}
 .mp-n{background:var(--gold);color:#050B18;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:800;flex-shrink:0;}
-.mp-chunk{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px;cursor:pointer;transition:border-color .2s;}
-.mp-chunk:hover{border-color:var(--border2);}
+.mp-chunk{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px;}
 .mp-chunk.lit{border-color:var(--gold);background:rgba(212,168,67,.07);}
 .mp-pg{font-size:9.5px;font-weight:700;color:var(--gold);margin-bottom:3px;}
 .mp-txt{font-size:11px;color:var(--txt2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
 
-/* ── Modals ── */
+/* Modals */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;z-index:500;animation:fadeIn .2s ease;}
 .modal.hide{display:none;}
 .modal-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;width:680px;max-width:calc(100vw - 32px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.7);}
@@ -254,19 +240,18 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .ltype:hover{border-color:var(--blue);color:var(--txt);}
 .ltype.active{border-color:var(--gold);color:var(--gold);background:rgba(212,168,67,.08);}
 
-/* ── Utilities ── */
+/* Utilities */
 .hide{display:none!important;}
 .toast{position:fixed;top:16px;right:16px;background:#1F0E0E;border:1px solid rgba(239,68,68,.38);border-radius:8px;padding:10px 15px;font-size:12.5px;color:#FCA5A5;max-width:340px;z-index:9999;animation:slideUp .3s ease;}
-::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--border2);}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes dp{0%,80%,100%{transform:scale(.65);opacity:.4}40%{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ── Mobile ── */
+/* Mobile */
 @media(max-width:768px){
   html,body{overflow:auto;height:auto;}
   #app{height:auto;min-height:100vh;}
@@ -283,8 +268,6 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
   .key-card{width:calc(100vw - 32px);padding:30px 22px;}
   .cin-bar{padding:10px 14px;}
   .modal-card{max-height:90vh;}
-  .lp{height:50vh;}
-  .pdf-canvas-scroll{height:calc(50vh - 120px);}
 }
 @media(max-width:480px){
   .badge{display:none;}
@@ -355,70 +338,69 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
   </div>
 
   <div class="body">
-    <!-- Left panel — PDF viewer -->
+    <!-- Left panel -->
     <div class="lp" id="lp">
-      <!-- Top bar: label | fund selector | compare | change -->
       <div class="lp-top">
-        <span class="lp-lbl">Document</span>
-        <div class="fund-sel-wrap">
-          <select class="fund-sel hide" id="fundSel" title="Select a fund"></select>
-        </div>
-        <button class="cmp-btn" id="cmpBtn" title="Compare two documents">⊕ Compare</button>
+        <span class="lp-lbl">Documents</span>
+        <button class="cmp-btn" id="cmpBtn">⊕ Compare</button>
       </div>
-
-      <!-- Slot tabs (shown only in compare mode) -->
-      <div class="slot-tabs" id="slotTabs">
-        <button class="slot-tab active" id="slotTab0" onclick="switchSlotTab(0)">Document 1</button>
-        <button class="slot-tab" id="slotTab1" onclick="switchSlotTab(1)">Document 2</button>
-      </div>
-
-      <!-- Slot 0 -->
-      <div class="pdf-viewer-wrap" id="slotWrap0">
-        <div class="pdf-upload-area" id="upArea0">
-          <div class="up-zone" id="upZone0">
-            <div class="up-ico">📄</div>
-            <div class="up-ttl">Upload a Fund Document</div>
-            <div class="up-sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
-            <input type="file" id="fileInp0" accept=".pdf" style="display:none">
+      <div class="slots-wrap">
+        <!-- Slot 0 -->
+        <div class="doc-slot" id="slot0">
+          <div class="slot-tag" id="slot0tag"><span class="slot-tag-lbl">Document 1</span></div>
+          <div class="up-area" id="upArea0">
+            <div class="up-zone" id="upZone0">
+              <div class="up-ico">📄</div>
+              <div class="up-ttl">Upload a Fund Document</div>
+              <div class="up-sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
+              <input type="file" id="fileInp0" accept=".pdf" style="display:none">
+            </div>
+            <div style="width:100%"><div class="prog-wrap hide" id="progWrap0"><div class="prog" id="prog0"></div></div></div>
+            <div class="up-note" id="upNote0">Loading Jupiter India Fund factsheet…</div>
           </div>
-          <div style="width:100%"><div class="prog-wrap hide" id="progWrap0"><div class="prog" id="prog0"></div></div></div>
-          <div class="up-note" id="upNote0"></div>
-        </div>
-        <div class="pdf-canvas-scroll hide" id="pdfScroll0">
-          <div class="pdf-pages-container" id="pdfPages0"></div>
-        </div>
-        <div class="pdf-nav" id="pdfNav0">
-          <button class="pdf-nav-btn" id="prevBtn0" onclick="navPage(0,-1)">← Prev</button>
-          <span class="pdf-nav-pg">
-            Page <input class="pdf-nav-jump" id="pageJump0" type="number" min="1" value="1"> of <span id="totalPg0">—</span>
-          </span>
-          <button class="pdf-nav-btn" id="nextBtn0" onclick="navPage(0,1)">Next →</button>
-          <button class="pdf-change-btn" onclick="changeDocSlot(0)" title="Load a different PDF">⇄</button>
-        </div>
-      </div>
-
-      <!-- Slot 1 (compare mode, hidden by default) -->
-      <div class="pdf-viewer-wrap hide" id="slotWrap1">
-        <div class="pdf-upload-area" id="upArea1">
-          <div class="up-zone" id="upZone1">
-            <div class="up-ico">📄</div>
-            <div class="up-ttl">Upload Second Document</div>
-            <div class="up-sub">Upload a second PDF to compare</div>
-            <input type="file" id="fileInp1" accept=".pdf" style="display:none">
+          <div class="di" id="di0">
+            <div class="di-head">
+              <div class="di-head-txt">
+                <div class="di-title" id="diTitle0">—</div>
+                <div class="di-meta">
+                  <div class="meta-item">Pages: <span class="meta-val" id="diPg0">—</span></div>
+                  <div class="meta-item">Sections: <span class="meta-val" id="diCk0">—</span></div>
+                  <div class="meta-item">Words: <span class="meta-val" id="diWd0">—</span></div>
+                </div>
+              </div>
+              <button class="di-change" onclick="changeDocSlot(0)">⇄ Change</button>
+            </div>
+            <div class="sec-lbl">Sections</div>
+            <div class="chunks" id="ckList0"></div>
           </div>
-          <div style="width:100%"><div class="prog-wrap hide" id="progWrap1"><div class="prog" id="prog1"></div></div></div>
-          <div class="up-note" id="upNote1"></div>
         </div>
-        <div class="pdf-canvas-scroll hide" id="pdfScroll1">
-          <div class="pdf-pages-container" id="pdfPages1"></div>
-        </div>
-        <div class="pdf-nav" id="pdfNav1">
-          <button class="pdf-nav-btn" id="prevBtn1" onclick="navPage(1,-1)">← Prev</button>
-          <span class="pdf-nav-pg">
-            Page <input class="pdf-nav-jump" id="pageJump1" type="number" min="1" value="1"> of <span id="totalPg1">—</span>
-          </span>
-          <button class="pdf-nav-btn" id="nextBtn1" onclick="navPage(1,1)">Next →</button>
-          <button class="pdf-change-btn" onclick="changeDocSlot(1)" title="Load a different PDF">⇄</button>
+        <!-- Slot 1 (compare mode) -->
+        <div class="doc-slot hide" id="slot1">
+          <div class="slot-tag on"><span class="slot-tag-lbl">Document 2</span></div>
+          <div class="up-area" id="upArea1">
+            <div class="up-zone" id="upZone1">
+              <div class="up-ico">📄</div>
+              <div class="up-ttl">Upload Second Document</div>
+              <div class="up-sub">Upload a second PDF to compare</div>
+              <input type="file" id="fileInp1" accept=".pdf" style="display:none">
+            </div>
+            <div style="width:100%"><div class="prog-wrap hide" id="progWrap1"><div class="prog" id="prog1"></div></div></div>
+            <div class="up-note" id="upNote1">Drop a PDF here to compare</div>
+          </div>
+          <div class="di" id="di1">
+            <div class="di-head">
+              <div class="di-head-txt">
+                <div class="di-title" id="diTitle1">—</div>
+                <div class="di-meta">
+                  <div class="meta-item">Pages: <span class="meta-val" id="diPg1">—</span></div>
+                  <div class="meta-item">Sections: <span class="meta-val" id="diCk1">—</span></div>
+                </div>
+              </div>
+              <button class="di-change" onclick="changeDocSlot(1)">⇄ Change</button>
+            </div>
+            <div class="sec-lbl">Sections</div>
+            <div class="chunks" id="ckList1"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -429,7 +411,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
         <div class="welcome" id="welcome">
           <div class="wel-ico">🔍</div>
           <div class="wel-ttl">Ready to analyse your document</div>
-          <div class="wel-txt">Select a fund from the dropdown or upload a Jupiter fund factsheet, then ask any question. Answers are sourced strictly from the document.</div>
+          <div class="wel-txt">Upload a Jupiter fund factsheet, then select your team and ask any question. Answers are sourced strictly from the document.</div>
         </div>
       </div>
       <div class="cin-bar">
@@ -507,55 +489,51 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 </div>
 
 <script>
-// ─── Config ───────────────────────────────────────────────────────────────────
-const MODEL        = 'claude-sonnet-4-20250514';
-const CHUNK_WORDS  = 420;
-const CHUNK_OVERLAP= 55;
-const MAX_CHUNKS   = 8;
-const PDF_SCALE    = 1.4;   // render scale for PDF.js pages
-const HL_COLOR     = 'rgba(212,168,67,0.38)';  // gold highlight fill
-const HL_PULSE     = 'rgba(212,168,67,0.75)';  // pulsed highlight
+// ─── Config ──────────────────────────────────────────────────────────────────
+const MODEL = 'claude-sonnet-4-6';
+const CHUNK_WORDS = 420;
+const CHUNK_OVERLAP = 55;
+const MAX_CHUNKS = 8;
+const SAMPLE_URLS = [
+  'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
+  'https://corsproxy.io/?' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
+];
 
-const SYS_BASE = `You are Document Intelligence for Jupiter Asset Management. Answer ONLY from the provided document excerpts. Never use external knowledge or training data.
+const SYS_BASE = `You are Document Intelligence for Jupiter Asset Management. Answer ONLY from the provided document excerpts. Never use external knowledge.
 Rules: 1) Cite every fact with source number and page e.g. "According to Source 2 (Page 4)…" 2) If the answer is absent say "I cannot find this in the provided sections." 3) Never speculate beyond explicit text. 4) Quote numbers and dates exactly as written.`;
 
 // ─── Teams ────────────────────────────────────────────────────────────────────
 const TEAMS = {
   investment:{label:'Investment',name:'Investment Team',
-    prompt:'You are analysing this document for a fund manager at Jupiter Asset Management. Be precise, data-focused, and highlight anything material to portfolio positioning, performance attribution, or risk. Never speculate beyond what the document states.',
+    prompt:'You are analysing this document for a fund manager. Be precise, data-focused, and highlight anything that affects portfolio positioning or performance.',
     qs:['What are the top 10 holdings?','What is the fund\'s geographic exposure?','Which sectors are overweight or underweight?','How has the fund performed versus its benchmark?','What is the fund\'s active share?','What is the portfolio turnover rate?','What are the largest country allocations?','What is the fund\'s volatility compared to the index?','What are the top contributors to performance this quarter?','What are the top detractors from performance?','What is the fund\'s Sharpe ratio?','How concentrated is the portfolio?','What is the fund\'s exposure to emerging markets?','What is the average market cap of holdings?','Has the fund manager made any significant changes to positioning recently?','What is the fund\'s currency exposure?','What is the beta of the portfolio?','What is the fund\'s drawdown history?','What is the ESG rating of the fund?','What are the fund\'s stewardship and voting policies?']},
   compliance:{label:'Compliance',name:'Compliance Team',
-    prompt:'You are analysing this document for a compliance officer at Jupiter Asset Management, which is regulated by the FCA. Flag every regulatory obligation, restriction, and risk disclosure explicitly and precisely. If something is absent that you would expect to see in a UCITS-compliant fund document, note that too.',
+    prompt:'You are analysing this document for a compliance officer at an FCA-regulated asset manager. Flag any regulatory obligations, risks, or restrictions explicitly.',
     qs:['What are the key regulatory risks mentioned?','What FCA obligations are referenced in this document?','Are there any material risk warnings?','What are the investment restrictions for this fund?','What is the fund\'s regulatory status?','Is the fund UCITS compliant?','What are the liquidity risk disclosures?','What leverage limits apply to this fund?','Are there any conflicts of interest disclosed?','What are the anti-money laundering provisions?','What are the key risks listed in the KIID?','What is the fund\'s risk and reward profile score?','Are there any sanctions or exclusion policies?','What are the reporting obligations mentioned?','What are the redemption gate provisions?','Are there any side pocket arrangements?','What are the valuation policies?','What are the fund\'s complaint handling procedures?','What regulatory filings are referenced?','What are the data protection obligations mentioned?']},
   marketing:{label:'Marketing',name:'Marketing Team',
-    prompt:'You are analysing this document for the marketing team at Jupiter Asset Management. Focus on clarity, client-friendly language, and identifying the strongest differentiators and selling points. Your output should be usable directly in investor communications with minimal editing.',
+    prompt:'You are analysing this document for a marketing team at an asset manager. Focus on clarity, client-friendly language, and identifying the strongest selling points.',
     qs:['Summarise this fund in plain English for a retail investor','What are the key selling points of this fund?','What makes this fund differentiated from competitors?','Write a one paragraph fund description','What is the fund\'s investment objective in simple terms?','What type of investor is this fund suitable for?','What is the fund\'s track record?','What awards or recognition has this fund received?','What is the fund manager\'s investment philosophy?','How would you describe the fund\'s strategy in one sentence?','What is the fund\'s risk profile in plain English?','What are the main reasons an investor would choose this fund?','What is the minimum investment amount?','How long has the fund been running?','Who manages this fund and what is their background?','What are the fund\'s charges and fees in plain English?','What is the fund size?','How often does the fund pay income?','Is this fund suitable for ISA investment?','What are the tax implications for UK investors?']},
   client:{label:'Client Relations',name:'Client Relations Team',
-    prompt:'You are analysing this document for a client relations manager at Jupiter Asset Management. Prioritise information that helps them communicate clearly and confidently with investors. Be concise, reassuring, and factual.',
+    prompt:'You are analysing this document for a client relations manager. Focus on information that would be most relevant and reassuring to communicate to investors.',
     qs:['What should I tell an institutional client about this fund?','What are the main risks to communicate to clients?','How has the fund performed recently?','What is the minimum investment?','What are the dealing and settlement terms?','What reporting does the fund provide to investors?','What are the redemption terms?','How does the fund handle large redemptions?','What is the fund\'s liquidity profile?','Who is the fund\'s target investor?','What are the share classes available?','What currencies are available?','How do I explain the fund\'s underperformance to a client?','What are the key differences between share classes?','What is the total expense ratio?','How often is the fund valued?','What is the fund\'s distribution policy?','How do I subscribe to this fund?','What documentation does a new investor need to provide?','What are the anti-dilution levy provisions?']},
   operations:{label:'Operations',name:'Operations Team',
-    prompt:'You are analysing this document for an operations team member at Jupiter Asset Management. Focus exclusively on operational and administrative details. Be precise about dates, deadlines, codes, and procedural requirements.',
+    prompt:'You are analysing this document for an operations team member. Focus on operational details, fund structure, fees, and administrative information.',
     qs:['What are the dealing deadlines?','What are the fees and charges?','What is the fund domicile and structure?','Who are the key service providers?','What is the fund\'s ISIN?','What is the cut-off time for same day dealing?','Who is the fund\'s depositary?','Who is the fund administrator?','What is the fund\'s base currency?','What are the settlement terms?','What are the swing pricing provisions?','What are the anti-dilution levy trigger points?','Who is the fund\'s auditor?','What are the NAV calculation terms?','What are the subscription and redemption minimums?','What platforms is the fund available on?','What are the transfer agent details?','What are the fund\'s Bloomberg and Reuters codes?','What are the hedging arrangements for currency share classes?','What are the fund\'s distribution dates?']}
 };
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let KEY = '';
-// Per-slot state: pdfDoc, rendered canvases, highlights, chunks, metadata
-const slots = [
-  { chunks:[], title:'', pages:0, words:0, pdfDoc:null, canvases:[], hlCanvases:[], pageOffsets:[], currentPage:1, pdfBytes:null },
-  { chunks:[], title:'', pages:0, words:0, pdfDoc:null, canvases:[], hlCanvases:[], pageOffsets:[], currentPage:1, pdfBytes:null }
-];
-let activeSlotTab = 0;   // which slot is visible in compare mode
-let compareMode    = false;
-let currentTeam    = 'investment';
-let busy           = false;
-let chatHistory    = [];
-let memHistory     = [];
-let answerN        = 0;
-let memOpen        = false;
-let focusedSugg    = -1;
+let docs = [{ chunks:[], title:'', pages:0, words:0 }, { chunks:[], title:'', pages:0, words:0 }];
+let compareMode = false;
+let currentTeam = 'investment';
+let busy = false;
+let litChunks = [];
+let chatHistory = [];
+let memHistory = [];
+let answerN = 0;
+let memOpen = false;
+let focusedSugg = -1;
 let selectedLetterType = 'retail';
-let lastCitedChunks = [];  // chunks from latest answer, for highlight persistence
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 function bootKey() {
@@ -574,63 +552,22 @@ function submitKey() {
 function launchApp() {
   document.getElementById('keyScreen').style.display = 'none';
   document.getElementById('app').classList.add('on');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  initSlots();
-  initTeams();
-  initQBar();
-  initChat();
-  loadFundsJson();
-  document.getElementById('keyBtn').onclick    = () => { sessionStorage.removeItem('j_key'); location.reload(); };
-  document.getElementById('clearBtn').onclick  = clearChat;
-  document.getElementById('memBtn').onclick    = toggleMem;
-  document.getElementById('cmpBtn').onclick    = toggleCompare;
-  document.getElementById('briefBtn').onclick  = openBriefing;
+  initSlot(0); initSlot(1);
+  initTeams(); initQBar(); initChat();
+  document.getElementById('keyBtn').onclick = () => { sessionStorage.removeItem('j_key'); location.reload(); };
+  document.getElementById('clearBtn').onclick = clearChat;
+  document.getElementById('memBtn').onclick = toggleMem;
+  document.getElementById('cmpBtn').onclick = toggleCompare;
+  document.getElementById('briefBtn').onclick = openBriefing;
   document.getElementById('letterBtn').onclick = openLetter;
   document.getElementById('briefCopyBtn').onclick = () => copyText(document.getElementById('briefPre').textContent, document.getElementById('briefCopyBtn'));
-  document.getElementById('letCopyBtn').onclick   = () => copyText(document.getElementById('letterPre').textContent, document.getElementById('letCopyBtn'));
-  document.getElementById('genLetBtn').onclick    = runGenLetter;
+  document.getElementById('letCopyBtn').onclick = () => copyText(document.getElementById('letterPre').textContent, document.getElementById('letCopyBtn'));
+  document.getElementById('genLetBtn').onclick = runGenLetter;
   document.querySelectorAll('.ltype').forEach(b => b.onclick = () => {
     document.querySelectorAll('.ltype').forEach(x => x.classList.remove('active'));
     b.classList.add('active'); selectedLetterType = b.dataset.t;
   });
-}
-
-// ─── funds.json loader ────────────────────────────────────────────────────────
-async function loadFundsJson() {
-  try {
-    const r = await fetch('funds.json?' + Date.now());
-    if (!r.ok) return;
-    const funds = await r.json();
-    if (!Array.isArray(funds) || !funds.length) return;
-    const sel = document.getElementById('fundSel');
-    sel.innerHTML = '<option value="">— Select a fund —</option>' +
-      funds.map(f => `<option value="${esc(f.file)}" data-name="${esc(f.name)}">${esc(f.name)}</option>`).join('');
-    sel.classList.remove('hide');
-    sel.onchange = () => {
-      const opt = sel.options[sel.selectedIndex];
-      if (!opt || !opt.value) return;
-      loadFundFromPath(opt.value, opt.dataset.name || opt.text, 0);
-      sel.blur();
-    };
-  } catch (_) {
-    // funds.json not present — upload-only mode, that's fine
-  }
-}
-
-async function loadFundFromPath(filePath, name, n) {
-  setSlotProg(n, 10);
-  setNote(n, 'Loading ' + name + '…');
-  try {
-    const r = await fetch(filePath);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const buf = await r.arrayBuffer();
-    if (buf.byteLength < 500) throw new Error('File appears empty');
-    setSlotProg(n, 30);
-    await processPDF(buf, name, n);
-  } catch (e) {
-    hideSlotProg(n);
-    showPdfErr(n, 'Could not load ' + name + ': ' + e.message);
-  }
+  loadSample();
 }
 
 // ─── Mobile tabs ──────────────────────────────────────────────────────────────
@@ -650,28 +587,9 @@ function toggleCompare() {
   compareMode = !compareMode;
   document.getElementById('cmpBtn').classList.toggle('active', compareMode);
   document.getElementById('cmpBtn').textContent = compareMode ? '✕ Single' : '⊕ Compare';
-  document.getElementById('slotTabs').classList.toggle('on', compareMode);
-  // In compare mode show the active slot, hide the other
-  if (compareMode) {
-    showSlotTab(activeSlotTab);
-  } else {
-    // Single mode: always show slot 0
-    document.getElementById('slotWrap0').classList.remove('hide');
-    document.getElementById('slotWrap1').classList.add('hide');
-    activeSlotTab = 0;
-  }
+  document.getElementById('slot0tag').classList.toggle('on', compareMode);
+  document.getElementById('slot1').classList.toggle('hide', !compareMode);
   updateNavDoc();
-}
-
-function switchSlotTab(n) {
-  activeSlotTab = n;
-  [0,1].forEach(i => document.getElementById('slotTab'+i).classList.toggle('active', i===n));
-  showSlotTab(n);
-}
-
-function showSlotTab(n) {
-  document.getElementById('slotWrap0').classList.toggle('hide', n !== 0);
-  document.getElementById('slotWrap1').classList.toggle('hide', n !== 1);
 }
 
 // ─── Team selector ────────────────────────────────────────────────────────────
@@ -689,8 +607,8 @@ function initTeams() {
 // ─── Question search bar ──────────────────────────────────────────────────────
 function initQBar() {
   const inp = document.getElementById('qsInp');
-  inp.oninput  = () => { focusedSugg = -1; renderSuggestions(inp.value); };
-  inp.onfocus  = () => renderSuggestions(inp.value);
+  inp.oninput = () => { focusedSugg = -1; renderSuggestions(inp.value); };
+  inp.onfocus = () => renderSuggestions(inp.value);
   inp.onkeydown = e => {
     const items = document.querySelectorAll('.qs-item');
     if (e.key === 'ArrowDown') { e.preventDefault(); focusedSugg = Math.min(focusedSugg+1, items.length-1); updateSuggFocus(items); }
@@ -707,7 +625,7 @@ function initQBar() {
 
 function renderSuggestions(query) {
   const drop = document.getElementById('qsDrop');
-  if (slots[0].chunks.length === 0) { drop.classList.add('hide'); return; }
+  if (docs[0].chunks.length === 0) { drop.classList.add('hide'); return; }
   const matches = getSuggestions(query);
   if (!matches.length) { drop.classList.add('hide'); return; }
   drop.innerHTML = matches.map((q,i) =>
@@ -719,15 +637,25 @@ function renderSuggestions(query) {
   drop.classList.remove('hide');
 }
 
-function updateSuggFocus(items) { items.forEach((el,i) => el.classList.toggle('foc', i===focusedSugg)); }
-function closeDrop() { document.getElementById('qsDrop').classList.add('hide'); focusedSugg = -1; }
+function updateSuggFocus(items) {
+  items.forEach((el,i) => el.classList.toggle('foc', i===focusedSugg));
+}
+
+function closeDrop() {
+  document.getElementById('qsDrop').classList.add('hide');
+  focusedSugg = -1;
+}
 
 function getSuggestions(query) {
   const qs = TEAMS[currentTeam].qs;
   if (!query.trim()) return qs.slice(0, 6);
   const q = query.toLowerCase();
-  return qs.map(s => ({ s, sc: matchScore(q, s.toLowerCase()) }))
-    .filter(x => x.sc > 0).sort((a,b) => b.sc - a.sc).slice(0, 6).map(x => x.s);
+  return qs
+    .map(s => ({ s, sc: matchScore(q, s.toLowerCase()) }))
+    .filter(x => x.sc > 0)
+    .sort((a,b) => b.sc - a.sc)
+    .slice(0, 6)
+    .map(x => x.s);
 }
 
 function matchScore(q, t) {
@@ -751,31 +679,37 @@ function submitFromQBar(q) {
   send();
 }
 
-// ─── Slot wiring ──────────────────────────────────────────────────────────────
-function initSlots() {
-  wireSlot(0); wireSlot(1);
-  // Page jump inputs
-  [0,1].forEach(n => {
-    const ji = document.getElementById('pageJump'+n);
-    ji.onchange = () => {
-      let p = parseInt(ji.value);
-      const tot = slots[n].pages;
-      if (isNaN(p)) p = 1;
-      p = Math.max(1, Math.min(tot, p));
-      ji.value = p;
-      scrollToPdfPage(n, p);
-    };
-  });
+// ─── Sample PDF ───────────────────────────────────────────────────────────────
+async function loadSample() {
+  setNote(0, 'Loading Jupiter India Fund factsheet…'); setSlotProg(0, 8);
+  for (const url of SAMPLE_URLS) {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(14000) });
+      if (!r.ok) continue;
+      const buf = await r.arrayBuffer();
+      if (buf.byteLength < 1000) continue;
+      setSlotProg(0, 38);
+      await processPDF(buf, 'Jupiter India Fund — Factsheet', 0);
+      return;
+    } catch (_) {}
+  }
+  hideSlotProg(0);
+  setNote(0, 'Auto-load unavailable. Please upload a Jupiter fund factsheet (PDF).');
+}
+
+// ─── Slot init ────────────────────────────────────────────────────────────────
+function initSlot(n) {
+  wireSlot(n);
 }
 
 function wireSlot(n) {
   const zone = document.getElementById('upZone'+n);
-  const inp  = document.getElementById('fileInp'+n);
-  zone.onclick     = () => inp.click();
-  inp.onchange     = e => { if (e.target.files[0]) readFileForSlot(e.target.files[0], n); inp.value=''; };
-  zone.ondragover  = e => { e.preventDefault(); zone.classList.add('over'); };
+  const inp = document.getElementById('fileInp'+n);
+  zone.onclick = () => inp.click();
+  inp.onchange = e => { if (e.target.files[0]) readFileForSlot(e.target.files[0], n); inp.value=''; };
+  zone.ondragover = e => { e.preventDefault(); zone.classList.add('over'); };
   zone.ondragleave = () => zone.classList.remove('over');
-  zone.ondrop      = e => {
+  zone.ondrop = e => {
     e.preventDefault(); zone.classList.remove('over');
     const f = e.dataTransfer.files[0];
     if (f?.type === 'application/pdf') readFileForSlot(f, n);
@@ -792,15 +726,12 @@ async function readFileForSlot(f, n) {
 }
 
 function changeDocSlot(n) {
-  // Reset slot state
-  slots[n].chunks = []; slots[n].title = ''; slots[n].pages = 0; slots[n].words = 0;
-  slots[n].pdfDoc = null; slots[n].canvases = []; slots[n].hlCanvases = []; slots[n].pageOffsets = [];
-  // Show upload area, hide canvas
+  document.getElementById('di'+n).classList.remove('on');
   document.getElementById('upArea'+n).style.display = '';
-  document.getElementById('pdfScroll'+n).classList.add('hide');
-  document.getElementById('pdfNav'+n).classList.remove('on');
-  document.getElementById('pdfPages'+n).innerHTML = '';
-  clearPdfErr(n); hideSlotProg(n); setNote(n, '');
+  clearPdfErr(n); hideSlotProg(n);
+  setNote(n, 'Upload a new PDF.');
+  docs[n] = { chunks:[], title:'', pages:0, words:0 };
+  document.getElementById('ckList'+n).innerHTML = '';
   if (n === 0) {
     document.getElementById('navDoc').textContent = 'No document loaded';
     document.getElementById('navDoc').classList.remove('on');
@@ -809,9 +740,6 @@ function changeDocSlot(n) {
     document.getElementById('sendBtn').disabled = true;
     document.getElementById('qsInp').disabled = true;
     clearChat(true);
-    // Reset fund selector
-    const sel = document.getElementById('fundSel');
-    if (sel) sel.value = '';
   }
   updateNavDoc();
   document.getElementById('fileInp'+n).click();
@@ -833,40 +761,33 @@ function clearPdfErr(n) {
   wireSlot(n);
 }
 
-// ─── PDF Processing & Rendering ───────────────────────────────────────────────
+// ─── PDF Processing ───────────────────────────────────────────────────────────
 async function processPDF(buf, title, n) {
   try {
     setBadge('Processing…', 'proc');
-    let pdfDoc;
-    try { pdfDoc = await pdfjsLib.getDocument({ data: buf }).promise; }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    let pdf;
+    try { pdf = await pdfjsLib.getDocument({ data: buf }).promise; }
     catch(e) { throw new Error('PDF.js could not parse this file. ' + (e.message||'')); }
-    const numPages = pdfDoc.numPages;
+    const numPages = pdf.numPages;
     if (!numPages) throw new Error('The PDF appears to have no pages.');
-    setSlotProg(n, 30);
-
-    // Extract text for RAG
+    setSlotProg(n, 45);
     const pages = [];
     for (let i = 1; i <= numPages; i++) {
       try {
-        const pg = await pdfDoc.getPage(i);
+        const pg = await pdf.getPage(i);
         const tc = await pg.getTextContent();
-        pages.push({ p:i, t: tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ').trim() });
+        pages.push({ p: i, t: tc.items.map(x=>x.str).join(' ').replace(/\s+/g,' ').trim() });
       } catch(_) { pages.push({ p:i, t:'' }); }
-      setSlotProg(n, 30 + (i/numPages)*35);
+      setSlotProg(n, 45 + (i/numPages)*40);
     }
     if (pages.map(p=>p.t).join('').trim().length < 100)
       throw new Error('No readable text found. This PDF may be scanned or image-based.');
-
-    slots[n].chunks  = buildChunks(pages);
-    slots[n].title   = title;
-    slots[n].pages   = numPages;
-    slots[n].words   = pages.reduce((s,p) => s + p.t.split(/\s+/).length, 0);
-    slots[n].pdfDoc  = pdfDoc;
-    slots[n].pdfBytes= buf;
-    setSlotProg(n, 68);
-
-    // Render all pages into canvases
-    await renderAllPages(n, pdfDoc, numPages);
+    setSlotProg(n, 88);
+    docs[n].chunks = buildChunks(pages);
+    docs[n].title = title;
+    docs[n].pages = numPages;
+    docs[n].words = pages.reduce((s,p) => s + p.t.split(/\s+/).length, 0);
     setSlotProg(n, 100);
     setTimeout(() => onSlotReady(n), 280);
   } catch(err) {
@@ -875,197 +796,6 @@ async function processPDF(buf, title, n) {
   }
 }
 
-async function renderAllPages(n, pdfDoc, numPages) {
-  const container = document.getElementById('pdfPages'+n);
-  container.innerHTML = '';
-  slots[n].canvases   = [];
-  slots[n].hlCanvases = [];
-  slots[n].pageOffsets= [];
-
-  for (let i = 1; i <= numPages; i++) {
-    const page    = await pdfDoc.getPage(i);
-    const vp      = page.getViewport({ scale: PDF_SCALE });
-    const wrap    = document.createElement('div');
-    wrap.className= 'pdf-page-wrap';
-    wrap.id       = 'pdfPageWrap-'+n+'-'+i;
-    wrap.style.width = vp.width + 'px';
-    wrap.style.height= vp.height + 'px';
-
-    const canvas  = document.createElement('canvas');
-    canvas.width  = vp.width;
-    canvas.height = vp.height;
-    const ctx     = canvas.getContext('2d');
-    await page.render({ canvasContext:ctx, viewport:vp }).promise;
-
-    // Highlight overlay canvas (transparent, drawn on demand)
-    const hlCanvas = document.createElement('canvas');
-    hlCanvas.width  = vp.width;
-    hlCanvas.height = vp.height;
-    hlCanvas.className = 'pdf-hl-canvas';
-
-    // Page number label
-    const pgNum = document.createElement('span');
-    pgNum.className = 'pdf-page-num';
-    pgNum.textContent = 'Page ' + i;
-
-    wrap.appendChild(canvas);
-    wrap.appendChild(hlCanvas);
-    wrap.appendChild(pgNum);
-    container.appendChild(wrap);
-
-    slots[n].canvases.push(canvas);
-    slots[n].hlCanvases.push(hlCanvas);
-
-    // Track offset of each page top relative to scroll container (approximated after append)
-    // We'll compute these lazily when scrolling
-    slots[n].pageOffsets[i-1] = 0; // filled below
-  }
-
-  // Fill page offsets after all pages are appended
-  requestAnimationFrame(() => {
-    const scrollEl = document.getElementById('pdfScroll'+n);
-    const containerEl = document.getElementById('pdfPages'+n);
-    const containerTop = containerEl.getBoundingClientRect().top;
-    slots[n].hlCanvases.forEach((_, idx) => {
-      const wrap = document.getElementById('pdfPageWrap-'+n+'-'+(idx+1));
-      if (wrap) {
-        const rect = wrap.getBoundingClientRect();
-        slots[n].pageOffsets[idx] = rect.top - containerTop + scrollEl.scrollTop;
-      }
-    });
-  });
-}
-
-function onSlotReady(n) {
-  hideSlotProg(n);
-  document.getElementById('upArea'+n).style.display = 'none';
-  document.getElementById('pdfScroll'+n).classList.remove('hide');
-  document.getElementById('pdfNav'+n).classList.add('on');
-  document.getElementById('totalPg'+n).textContent = slots[n].pages;
-  document.getElementById('pageJump'+n).value = 1;
-  document.getElementById('pageJump'+n).max   = slots[n].pages;
-  updateNavDoc();
-  if (n === 0) {
-    setBadge('Ready', 'ok');
-    document.getElementById('cin').disabled    = false;
-    document.getElementById('sendBtn').disabled= false;
-    document.getElementById('qsInp').disabled  = false;
-    document.getElementById('letterBtn').disabled = false;
-    clearChat(true);
-    const w = document.getElementById('welcome');
-    w.style.display = '';
-    w.querySelector('.wel-ttl').textContent = 'Document loaded — ask anything';
-    w.querySelector('.wel-txt').textContent  = slots[0].chunks.length + ' sections indexed from "' + slots[0].title + '". Select your team above and ask any question.';
-    if (window.innerWidth <= 768) mobTab('chat');
-    else document.getElementById('cin').focus();
-    runHealthCheck(n);
-  }
-  // Wire scroll -> page indicator
-  const scrollEl = document.getElementById('pdfScroll'+n);
-  scrollEl.onscroll = () => updateCurrentPageIndicator(n);
-}
-
-function updateCurrentPageIndicator(n) {
-  const scrollEl = document.getElementById('pdfScroll'+n);
-  const st = scrollEl.scrollTop + scrollEl.clientHeight / 3;
-  let best = 0;
-  for (let i = 0; i < slots[n].pageOffsets.length; i++) {
-    if (slots[n].pageOffsets[i] <= st) best = i;
-  }
-  const pg = best + 1;
-  if (slots[n].currentPage !== pg) {
-    slots[n].currentPage = pg;
-    document.getElementById('pageJump'+n).value = pg;
-    document.getElementById('prevBtn'+n).disabled = pg <= 1;
-    document.getElementById('nextBtn'+n).disabled = pg >= slots[n].pages;
-  }
-}
-
-// ─── Page navigation ──────────────────────────────────────────────────────────
-function navPage(n, delta) {
-  const target = (slots[n].currentPage || 1) + delta;
-  const clamped = Math.max(1, Math.min(slots[n].pages, target));
-  document.getElementById('pageJump'+n).value = clamped;
-  scrollToPdfPage(n, clamped);
-}
-
-function scrollToPdfPage(n, pageNum) {
-  // Refresh offsets first (layout may have settled)
-  const scrollEl   = document.getElementById('pdfScroll'+n);
-  const containerEl= document.getElementById('pdfPages'+n);
-  const containerTop = containerEl.getBoundingClientRect().top;
-  slots[n].hlCanvases.forEach((_, idx) => {
-    const wrap = document.getElementById('pdfPageWrap-'+n+'-'+(idx+1));
-    if (wrap) {
-      const rect = wrap.getBoundingClientRect();
-      slots[n].pageOffsets[idx] = rect.top - containerTop + scrollEl.scrollTop;
-    }
-  });
-  const offset = slots[n].pageOffsets[pageNum - 1] || 0;
-  scrollEl.scrollTo({ top: Math.max(0, offset - 16), behavior: 'smooth' });
-  slots[n].currentPage = pageNum;
-  document.getElementById('pageJump'+n).value = pageNum;
-  document.getElementById('prevBtn'+n).disabled = pageNum <= 1;
-  document.getElementById('nextBtn'+n).disabled = pageNum >= slots[n].pages;
-}
-
-// ─── Gold highlights on PDF pages ─────────────────────────────────────────────
-function clearAllHighlights(n) {
-  slots[n].hlCanvases.forEach(hlc => {
-    const ctx = hlc.getContext('2d');
-    ctx.clearRect(0, 0, hlc.width, hlc.height);
-  });
-}
-
-/**
- * Draw a gold banner highlight across the top portion of a page.
- * Since we don't have exact text coordinates, we highlight the entire page
- * with a translucent gold banner on the top third — clearly visible on the
- * rendered page as a "this section was cited" indicator.
- */
-function highlightPage(n, pageNum, pulse) {
-  const idx = pageNum - 1;
-  if (idx < 0 || idx >= slots[n].hlCanvases.length) return;
-  const hlc = slots[n].hlCanvases[idx];
-  const ctx = hlc.getContext('2d');
-  ctx.clearRect(0, 0, hlc.width, hlc.height);
-  const color = pulse ? HL_PULSE : HL_COLOR;
-  // Draw gold left border stripe + top banner
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, 6, hlc.height);           // left stripe full height
-  ctx.fillStyle = pulse ? 'rgba(212,168,67,0.18)' : 'rgba(212,168,67,0.10)';
-  ctx.fillRect(6, 0, hlc.width - 6, hlc.height); // full page tint
-  // Gold "CITED" label
-  ctx.fillStyle = pulse ? 'rgba(212,168,67,0.95)' : 'rgba(212,168,67,0.75)';
-  ctx.fillRect(8, 10, 60, 20);
-  ctx.fillStyle = '#050B18';
-  ctx.font = 'bold 11px Inter, sans-serif';
-  ctx.fillText('CITED', 12, 24);
-}
-
-function applyChunkHighlights(chunks, pulse) {
-  // Clear all slots
-  [0,1].forEach(n => clearAllHighlights(n));
-  // Group cited pages by slot
-  const bySlot = { 0: new Set(), 1: new Set() };
-  chunks.forEach(c => {
-    const n = c.di || 0;
-    for (let p = c.s; p <= c.e; p++) bySlot[n].add(p);
-  });
-  [0,1].forEach(n => {
-    bySlot[n].forEach(pg => highlightPage(n, pg, pulse));
-  });
-}
-
-function pulseHighlightPage(n, pageNum) {
-  // Draw pulsed version, then revert
-  highlightPage(n, pageNum, true);
-  setTimeout(() => highlightPage(n, pageNum, false), 500);
-  setTimeout(() => highlightPage(n, pageNum, true),  1000);
-  setTimeout(() => highlightPage(n, pageNum, false), 1500);
-}
-
-// ─── Chunk helpers ────────────────────────────────────────────────────────────
 function buildChunks(pages) {
   const out = []; let buf = [], w = 0, sp = 1;
   for (const pg of pages) {
@@ -1083,13 +813,52 @@ function buildChunks(pages) {
   return out;
 }
 
+function onSlotReady(n) {
+  hideSlotProg(n);
+  document.getElementById('upArea'+n).style.display = 'none';
+  document.getElementById('di'+n).classList.add('on');
+  document.getElementById('diTitle'+n).textContent = docs[n].title;
+  document.getElementById('diPg'+n).textContent = docs[n].pages;
+  document.getElementById('diCk'+n).textContent = docs[n].chunks.length;
+  if (document.getElementById('diWd'+n)) document.getElementById('diWd'+n).textContent = docs[n].words.toLocaleString();
+  renderChunkList(n);
+  updateNavDoc();
+  if (n === 0) {
+    setBadge('Ready', 'ok');
+    document.getElementById('cin').disabled = false;
+    document.getElementById('sendBtn').disabled = false;
+    document.getElementById('qsInp').disabled = false;
+    document.getElementById('letterBtn').disabled = false;
+    clearChat(true);
+    const w = document.getElementById('welcome');
+    w.style.display = '';
+    w.querySelector('.wel-ttl').textContent = 'Document loaded — ask anything';
+    w.querySelector('.wel-txt').textContent = docs[0].chunks.length + ' sections indexed from "' + docs[0].title + '". Select your team above and ask any question.';
+    if (window.innerWidth <= 768) mobTab('chat');
+    else document.getElementById('cin').focus();
+    runHealthCheck(n);
+  }
+}
+
+function renderChunkList(n) {
+  const list = document.getElementById('ckList'+n);
+  list.innerHTML = '';
+  docs[n].chunks.forEach(ck => {
+    const d = document.createElement('div');
+    d.className = 'ck'; d.id = 'ck-'+n+'-'+ck.idx;
+    const pg = ck.s === ck.e ? 'Page '+ck.s : 'Pages '+ck.s+'–'+ck.e;
+    d.innerHTML = '<div class="ck-pg">§'+(ck.idx+1)+' · '+pg+'</div><div class="ck-prev">'+esc(ck.text.slice(0,160))+'…</div>';
+    list.appendChild(d);
+  });
+}
+
 function updateNavDoc() {
   const el = document.getElementById('navDoc');
-  if (compareMode && slots[0].title && slots[1].title) {
-    el.textContent = 'Comparing: ' + slots[0].title + ' vs ' + slots[1].title;
+  if (compareMode && docs[0].title && docs[1].title) {
+    el.textContent = 'Comparing: ' + docs[0].title + ' vs ' + docs[1].title;
     el.classList.add('on');
-  } else if (slots[0].title) {
-    el.textContent = slots[0].title; el.classList.add('on');
+  } else if (docs[0].title) {
+    el.textContent = docs[0].title; el.classList.add('on');
   } else {
     el.textContent = 'No document loaded'; el.classList.remove('on');
   }
@@ -1097,7 +866,7 @@ function updateNavDoc() {
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 async function runHealthCheck(n) {
-  const sample = slots[n].chunks.slice(0,5).map(c=>c.text).join('\n\n').slice(0,4000);
+  const sample = docs[n].chunks.slice(0,5).map(c=>c.text).join('\n\n').slice(0,4000);
   const hid = 'hcard-'+n;
   const chat = document.getElementById('chat');
   const card = document.createElement('div');
@@ -1105,29 +874,30 @@ async function runHealthCheck(n) {
   card.innerHTML = '<div class="hcard-title"><span class="hcard-title-ico">◈</span>Document Health Check</div><div class="hloading"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span>Analysing document…</span></div>';
   const welcome = document.getElementById('welcome');
   chat.insertBefore(card, welcome.nextSibling);
+
   try {
-    const res = await callRaw(`Analyse this document excerpt. Return ONLY valid JSON with no markdown:
-{"risks":{"ok":true,"note":"one-line summary"},"regulatory":{"ok":false,"note":"one-line summary"},"performance":{"ok":true,"note":"one-line summary"},"manager":{"ok":true,"note":"one-line summary"},"fees":{"ok":true,"note":"one-line summary"},"objective":{"ok":true,"note":"one-line summary"}}
+    const res = await callRaw(`Analyse this document excerpt. Return ONLY valid JSON with no markdown formatting:
+{"risks":{"ok":true,"note":"brief one-line summary"},"regulatory":{"ok":false,"note":"brief one-line summary"},"performance":{"ok":true,"note":"brief one-line summary"},"manager":{"ok":true,"note":"brief one-line summary"},"fees":{"ok":true,"note":"brief one-line summary"},"objective":{"ok":true,"note":"brief one-line summary"}}
 
 Document:
 ${sample}`, 500);
     const clean = res.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
     const d = JSON.parse(clean);
     const checks = [
-      { key:'risks',      label:'Key risks identified' },
+      { key:'risks', label:'Key risks identified' },
       { key:'regulatory', label:'Regulatory obligations' },
-      { key:'performance',label:'Performance data present' },
-      { key:'manager',    label:'Fund manager named' },
-      { key:'fees',       label:'Fees & charges present' },
-      { key:'objective',  label:'Investment objective stated' }
+      { key:'performance', label:'Performance data present' },
+      { key:'manager', label:'Fund manager named' },
+      { key:'fees', label:'Fees & charges present' },
+      { key:'objective', label:'Investment objective stated' }
     ];
     card.innerHTML = '<div class="hcard-title"><span class="hcard-title-ico">◈</span>Document Health Check</div><div class="hgrid">' +
-      checks.map(c => `<div class="hi"><div class="hi-ico">${d[c.key]?.ok?'✅':'❌'}</div><div><div class="hi-lbl">${c.label}</div><div class="hi-note">${esc(d[c.key]?.note||'No data')}</div></div></div>`).join('') +
+      checks.map(c => `<div class="hi"><div class="hi-ico">${d[c.key]?.ok ? '✅':'❌'}</div><div><div class="hi-lbl">${c.label}</div><div class="hi-note">${esc(d[c.key]?.note||'No data')}</div></div></div>`).join('') +
       '</div>';
   } catch(_) { card.remove(); }
 }
 
-// ─── Relevance ─────────────────────────────────────────────────────────────────
+// ─── Relevance ────────────────────────────────────────────────────────────────
 const STOP = new Set('the a an and or but in on at to for of with by from is was are were be been have has had do does did will would could should may might i you he she we they their our your its not no so as if then than more all each both this that these those what which who how when where why'.split(' '));
 
 function tok(s){ return s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w=>w.length>2&&!STOP.has(w)); }
@@ -1147,9 +917,9 @@ function relevant(q) {
   const qt = tok(q);
   const all = [];
   if (compareMode) {
-    [0,1].forEach(di => { if(slots[di].chunks.length) slots[di].chunks.forEach(c=>all.push({...c,di})); });
+    [0,1].forEach(di => { if(docs[di].chunks.length) docs[di].chunks.forEach(c=>all.push({...c,di})); });
   } else {
-    slots[0].chunks.forEach(c=>all.push({...c,di:0}));
+    docs[0].chunks.forEach(c=>all.push({...c,di:0}));
   }
   if (!all.length) return { chunks:[], confidence:'Low', topScore:0 };
   const scored = all.map(c=>({c,sc:scoreChunk(c,qt)})).sort((a,b)=>b.sc-a.sc);
@@ -1170,13 +940,13 @@ function initChat() {
   const cin = document.getElementById('cin');
   document.getElementById('sendBtn').onclick = send;
   cin.onkeydown = e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} };
-  cin.oninput   = () => { cin.style.height='auto'; cin.style.height=Math.min(cin.scrollHeight,110)+'px'; };
+  cin.oninput = () => { cin.style.height='auto'; cin.style.height=Math.min(cin.scrollHeight,110)+'px'; };
 }
 
 async function send() {
   const cin = document.getElementById('cin');
   const q = cin.value.trim();
-  if (!q || busy || !slots[0].chunks.length) return;
+  if (!q || busy || !docs[0].chunks.length) return;
   busy = true;
   cin.value = ''; cin.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
@@ -1187,18 +957,10 @@ async function send() {
   const loader = addLoader();
   try {
     const rel = relevant(q);
-    lastCitedChunks = rel.chunks;
-    applyChunkHighlights(rel.chunks, false);
-    // Scroll to first cited page in the active slot
-    if (rel.chunks.length) {
-      const firstChunk = rel.chunks[0];
-      const n = firstChunk.di || 0;
-      if (compareMode) switchSlotTab(n);
-      scrollToPdfPage(n, firstChunk.s);
-    }
-    const ctx = rel.chunks.map((c,i) => {
+    lightChunks(rel.chunks);
+    const ctx = rel.chunks.map((c,i)=>{
       const dl = compareMode ? 'Document '+(c.di+1)+' — ' : '';
-      const pg = c.s===c.e ? 'Page '+c.s : 'Pages '+c.s+'–'+c.e;
+      const pg = c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
       return '[Source '+(i+1)+' — '+dl+pg+']\n'+c.text;
     }).join('\n\n---\n\n');
     const ans = await callClaude(q, ctx);
@@ -1219,10 +981,10 @@ async function send() {
 
 async function callClaude(q, ctx) {
   const sys = SYS_BASE + '\n\nTeam context: ' + TEAMS[currentTeam].prompt;
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'x-api-key':KEY,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({ model:MODEL, max_tokens:1500, system:sys,
+    body:JSON.stringify({ model:MODEL, max_tokens:1400, system:sys,
       messages:[{role:'user',content:'Document excerpts:\n\n'+ctx+'\n\n---\n\nQuestion: '+q}]})
   });
   if(!r.ok){const e=await r.json().catch(()=>{});throw new Error(e?.error?.message||'API error '+r.status);}
@@ -1230,7 +992,7 @@ async function callClaude(q, ctx) {
 }
 
 async function callRaw(userMsg, maxTokens=600) {
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
     headers:{'x-api-key':KEY,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
     body:JSON.stringify({ model:MODEL, max_tokens:maxTokens,
@@ -1251,37 +1013,23 @@ function addAIMsg(txt, srcs, confidence) {
   const chat = document.getElementById('chat');
   const d = document.createElement('div'); d.className='msg';
   const cClass = confidence==='High'?'conf-h':confidence==='Medium'?'conf-m':'conf-l';
-  const cIcon  = confidence==='High'?'●':confidence==='Medium'?'◐':'○';
-  const srcHtml = srcs.slice(0,4).map((c,i) => {
-    const dl = compareMode ? 'Doc '+(c.di+1)+' · ' : '';
-    const pg = c.s===c.e ? 'Page '+c.s : 'Pages '+c.s+'–'+c.e;
-    return `<div class="src" data-slot="${c.di||0}" data-page="${c.s}">
-      <div class="src-lbl">Source ${i+1} · ${dl}${pg}</div>
-      <div class="src-txt">"${esc(c.text.slice(0,200).replace(/\s+/g,' ').trim())}…"</div>
-      <div class="src-jump">↗ Click to jump to page ${c.s} in document</div>
-    </div>`;
+  const cIcon = confidence==='High'?'●':confidence==='Medium'?'◐':'○';
+  const srcHtml = srcs.slice(0,3).map((c,i)=>{
+    const dl = compareMode?'Doc '+(c.di+1)+' · ':'';
+    const pg = c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
+    return '<div class="src"><div class="src-lbl">Source '+(i+1)+' · '+dl+pg+'</div><div class="src-txt">"'+esc(c.text.slice(0,200).replace(/\s+/g,' ').trim())+'…"</div></div>';
   }).join('');
   const saved = timeSaved(srcs);
-  d.innerHTML =
+  d.innerHTML=
     '<div class="msg-hd"><div class="av av-a">AI</div><div class="msg-role">Document Intelligence</div>'+
     '<span class="conf '+cClass+'">'+cIcon+' '+confidence+'</span>'+
     '<button class="copy-btn">⎘ Copy</button></div>'+
     '<div class="bubble bbl-a">'+fmt(txt)+'</div>'+
-    (srcHtml ? '<div class="srcs">'+srcHtml+'</div>' : '')+
+    (srcHtml?'<div class="srcs">'+srcHtml+'</div>':'')+
     '<div class="time-saved">⏱ Est. time saved: '+saved+'</div>';
-  // Copy button
-  d.querySelector('.copy-btn').onclick = function(){ copyText(txt, this); };
-  // Source citation click → jump to page + pulse highlight
-  d.querySelectorAll('.src').forEach(srcEl => {
-    srcEl.onclick = () => {
-      const n    = parseInt(srcEl.dataset.slot) || 0;
-      const page = parseInt(srcEl.dataset.page) || 1;
-      if (compareMode) switchSlotTab(n);
-      scrollToPdfPage(n, page);
-      pulseHighlightPage(n, page);
-      if (window.innerWidth <= 768) mobTab('doc');
-    };
-  });
+  d.querySelector('.copy-btn').onclick=function(){
+    copyText(txt,this);
+  };
   chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
 }
 
@@ -1292,75 +1040,70 @@ function addLoader() {
   chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d;
 }
 
+function lightChunks(chunks) {
+  litChunks.forEach(({n,idx})=>{const e=document.getElementById('ck-'+n+'-'+idx);if(e)e.classList.remove('lit');});
+  litChunks = chunks.map(c=>({n:c.di,idx:c.idx}));
+  litChunks.forEach(({n,idx})=>{const e=document.getElementById('ck-'+n+'-'+idx);if(e)e.classList.add('lit');});
+  if(litChunks.length){const first=document.getElementById('ck-'+litChunks[0].n+'-'+litChunks[0].idx);if(first)first.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
 // ─── Clear chat ───────────────────────────────────────────────────────────────
 function clearChat(silent) {
   const chat = document.getElementById('chat');
-  Array.from(chat.children).forEach(el => {
-    if (!el.id && !el.classList.contains('hcard')) el.remove();
+  Array.from(chat.children).forEach(el=>{
+    if(!el.id&&!el.classList.contains('hcard')) el.remove();
   });
-  const w = document.getElementById('welcome'); w.style.display='';
-  if (slots[0].chunks.length) {
-    w.querySelector('.wel-ttl').textContent = 'Document loaded — ask anything';
-    w.querySelector('.wel-txt').textContent  = slots[0].chunks.length+' sections indexed. Ask any question and I\'ll answer strictly from the document.';
+  const w=document.getElementById('welcome'); w.style.display='';
+  if(docs[0].chunks.length){
+    w.querySelector('.wel-ttl').textContent='Document loaded — ask anything';
+    w.querySelector('.wel-txt').textContent=docs[0].chunks.length+' sections indexed. Ask any question and I\'ll answer strictly from the document.';
   } else {
-    w.querySelector('.wel-ttl').textContent = 'Ready to analyse your document';
-    w.querySelector('.wel-txt').textContent  = 'Select a fund from the dropdown or upload a Jupiter fund factsheet to get started.';
+    w.querySelector('.wel-ttl').textContent='Ready to analyse your document';
+    w.querySelector('.wel-txt').textContent='Upload a Jupiter fund factsheet to get started.';
   }
-  [0,1].forEach(n => clearAllHighlights(n));
-  lastCitedChunks = [];
+  lightChunks([]);
   chatHistory=[]; memHistory=[]; answerN=0;
-  if (memOpen) renderMemPanel();
-  if (!silent) document.getElementById('clearBtn').classList.add('hide');
+  if(memOpen) renderMemPanel();
+  if(!silent) document.getElementById('clearBtn').classList.add('hide');
   document.getElementById('briefBtn').disabled=true;
 }
 
 // ─── Memory panel ─────────────────────────────────────────────────────────────
 function toggleMem() {
-  memOpen = !memOpen;
-  document.getElementById('mp').classList.toggle('closed', !memOpen);
-  document.getElementById('memBtn').classList.toggle('act', memOpen);
-  if (memOpen) renderMemPanel();
+  memOpen=!memOpen;
+  document.getElementById('mp').classList.toggle('closed',!memOpen);
+  document.getElementById('memBtn').classList.toggle('act',memOpen);
+  if(memOpen) renderMemPanel();
 }
 
 function updateMemPanel(q, chunks) {
-  answerN++; memHistory.push({n:answerN, q, chunks});
-  if (memOpen) renderMemPanel();
+  answerN++; memHistory.push({n:answerN,q,chunks});
+  if(memOpen) renderMemPanel();
 }
 
 function renderMemPanel() {
-  const body = document.getElementById('mpBody');
-  if (!memHistory.length) { body.innerHTML='<div class="mp-empty">Retrieved document sections will appear here as you ask questions.</div>'; return; }
+  const body=document.getElementById('mpBody');
+  if(!memHistory.length){body.innerHTML='<div class="mp-empty">Retrieved document sections will appear here as you ask questions.</div>';return;}
   body.innerHTML='';
-  [...memHistory].reverse().forEach(({n,q,chunks}) => {
+  [...memHistory].reverse().forEach(({n,q,chunks})=>{
     const entry=document.createElement('div'); entry.className='mp-entry';
     entry.innerHTML='<div class="mp-entry-q"><span class="mp-n">A'+n+'</span>'+esc(q.slice(0,65))+(q.length>65?'…':'')+'</div>'+
-      chunks.map(c => {
-        const dl = compareMode ? 'Doc '+(c.di+1)+' · ' : '';
-        const pg = c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
-        return `<div class="mp-chunk" data-slot="${c.di||0}" data-page="${c.s}"><div class="mp-pg">${dl}${pg}</div><div class="mp-txt">${esc(c.text.slice(0,200))}</div></div>`;
+      chunks.map(c=>{
+        const dl=compareMode?'Doc '+(c.di+1)+' · ':'';
+        const pg=c.s===c.e?'Page '+c.s:'Pages '+c.s+'–'+c.e;
+        return '<div class="mp-chunk"><div class="mp-pg">'+dl+pg+'</div><div class="mp-txt">'+esc(c.text.slice(0,200))+'</div></div>';
       }).join('');
-    // Click chunk in memory panel → jump to page
-    entry.querySelectorAll('.mp-chunk').forEach(el => {
-      el.onclick = () => {
-        const sn   = parseInt(el.dataset.slot)||0;
-        const page = parseInt(el.dataset.page)||1;
-        if (compareMode) switchSlotTab(sn);
-        scrollToPdfPage(sn, page);
-        pulseHighlightPage(sn, page);
-        if (window.innerWidth <= 768) mobTab('doc');
-      };
-    });
     body.appendChild(entry);
   });
 }
 
 // ─── Briefing pack ────────────────────────────────────────────────────────────
 function openBriefing() {
-  if (!chatHistory.length) return;
-  const title = slots[0].title||'Unknown Document';
-  const date  = new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
-  const lines = ['JUPITER ASSET MANAGEMENT','DOCUMENT INTELLIGENCE BRIEFING','═'.repeat(54),'',
-    'Document: '+title,(compareMode&&slots[1].title?'Comparison: '+slots[1].title:''),
+  if(!chatHistory.length) return;
+  const title=docs[0].title||'Unknown Document';
+  const date=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+  const lines=['JUPITER ASSET MANAGEMENT','DOCUMENT INTELLIGENCE BRIEFING','═'.repeat(54),'',
+    'Document: '+title,(compareMode&&docs[1].title?'Comparison: '+docs[1].title:''),
     'Team: '+TEAMS[currentTeam].name,'Date: '+date,'','═'.repeat(54),''].filter(l=>l!==undefined);
   let qn=0;
   chatHistory.forEach(({role,content,srcs,confidence})=>{
@@ -1376,7 +1119,10 @@ function openBriefing() {
 }
 
 // ─── Client letter ────────────────────────────────────────────────────────────
-function openLetter() { resetLetter(); document.getElementById('letterModal').classList.remove('hide'); }
+function openLetter() {
+  resetLetter();
+  document.getElementById('letterModal').classList.remove('hide');
+}
 
 function resetLetter() {
   document.getElementById('letterCfg').style.display='';
@@ -1387,7 +1133,7 @@ function resetLetter() {
 async function runGenLetter() {
   const btn=document.getElementById('genLetBtn');
   btn.disabled=true; btn.textContent='Generating…';
-  const ctx=slots[0].chunks.slice(0,7).map(c=>c.text).join('\n\n').slice(0,5000);
+  const ctx=docs[0].chunks.slice(0,7).map(c=>c.text).join('\n\n').slice(0,5000);
   const typeDesc={retail:'retail investor (private individual, non-professional)',institutional:'institutional investor (pension fund, insurance company, or similar entity)',wholesale:'wholesale or professional investor (financial adviser, wealth manager, or regulated professional client)'}[selectedLetterType];
   try {
     const letter=await callRaw(`Write a professional investor update letter for Jupiter Asset Management addressed to a ${typeDesc}.
@@ -1396,9 +1142,9 @@ Based strictly on this fund document:
 ${ctx}
 
 Requirements:
-- Professional tone for the investor type (simpler language for retail, technical for institutional/wholesale)
+- Professional tone for the investor type (simpler language for retail, technical detail for institutional/wholesale)
 - Date line: [Date] | Salutation: Dear [Client Name],
-- 3-4 paragraphs: fund overview/objective, current positioning, performance context, forward-looking statement
+- 3-4 paragraphs: fund overview/objective, current positioning, performance context if available, forward-looking statement
 - Sign-off: Yours sincerely, [Fund Manager], Jupiter Asset Management
 - Base all content strictly on the document — do not invent figures
 - If specific data is unavailable, acknowledge gracefully`, 1300);
@@ -1416,7 +1162,7 @@ function closeMod(id) { document.getElementById(id).classList.add('hide'); }
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function setSlotProg(n,p){document.getElementById('progWrap'+n).classList.remove('hide');document.getElementById('prog'+n).style.width=p+'%';}
 function hideSlotProg(n){document.getElementById('progWrap'+n).classList.add('hide');}
-function setNote(n,t){const el=document.getElementById('upNote'+n);if(el)el.textContent=t;}
+function setNote(n,t){document.getElementById('upNote'+n).textContent=t;}
 function setBadge(txt,type){
   const b=document.getElementById('navBadge');
   if(!txt){b.classList.add('hide');return;}
