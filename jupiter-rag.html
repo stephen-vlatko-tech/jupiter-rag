@@ -116,6 +116,17 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .pdf-err-btn{background:none;border:1px solid rgba(239,68,68,.4);border-radius:5px;padding:6px 14px;font-size:11.5px;color:#FCA5A5;cursor:pointer;font-family:'Inter',sans-serif;}
 .pdf-err-btn:hover{background:rgba(239,68,68,.1);}
 
+/* Fund selector */
+.fund-sel-wrap{width:100%;}
+.fund-sel-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:7px;}
+.fund-sel{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:10px 32px 10px 12px;color:var(--txt);font-family:'Inter',sans-serif;font-size:12.5px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A92B6' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s;}
+.fund-sel:hover{border-color:var(--gold);}
+.fund-sel:focus{border-color:var(--blue);}
+.fund-sel option{background:var(--panel);}
+.fund-or{display:flex;align-items:center;gap:10px;width:100%;}
+.fund-or-line{flex:1;height:1px;background:var(--border);}
+.fund-or-txt{font-size:10.5px;color:var(--txt3);font-weight:500;letter-spacing:.3px;flex-shrink:0;}
+
 /* Doc info */
 .di{display:none;flex-direction:column;height:100%;overflow:hidden;}
 .di.on{display:flex;}
@@ -349,14 +360,27 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
         <div class="doc-slot" id="slot0">
           <div class="slot-tag" id="slot0tag"><span class="slot-tag-lbl">Document 1</span></div>
           <div class="up-area" id="upArea0">
+            <!-- Fund selector (shown only when funds.json is available) -->
+            <div class="fund-sel-wrap hide" id="fundSelWrap">
+              <label class="fund-sel-lbl" for="fundSel">Select a pre-loaded fund</label>
+              <select class="fund-sel" id="fundSel">
+                <option value="">— Choose a fund —</option>
+              </select>
+            </div>
+            <div class="fund-or hide" id="fundOr">
+              <div class="fund-or-line"></div>
+              <span class="fund-or-txt">or</span>
+              <div class="fund-or-line"></div>
+            </div>
+            <!-- Upload zone -->
             <div class="up-zone" id="upZone0">
               <div class="up-ico">📄</div>
-              <div class="up-ttl">Upload a Fund Document</div>
-              <div class="up-sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
+              <div class="up-ttl" id="upZone0Ttl">Upload a Fund Document</div>
+              <div class="up-sub" id="upZone0Sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
               <input type="file" id="fileInp0" accept=".pdf" style="display:none">
             </div>
             <div style="width:100%"><div class="prog-wrap hide" id="progWrap0"><div class="prog" id="prog0"></div></div></div>
-            <div class="up-note" id="upNote0">Loading Jupiter India Fund factsheet…</div>
+            <div class="up-note" id="upNote0"></div>
           </div>
           <div class="di" id="di0">
             <div class="di-head">
@@ -494,10 +518,6 @@ const MODEL = 'claude-sonnet-4-6';
 const CHUNK_WORDS = 420;
 const CHUNK_OVERLAP = 55;
 const MAX_CHUNKS = 8;
-const SAMPLE_URLS = [
-  'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
-  'https://corsproxy.io/?' + encodeURIComponent('https://www.jupiter-am.com/globalassets/jupiter/documents/en-gb/factsheets/jupiter-india-fund-factsheet-en-gb.pdf'),
-];
 
 const SYS_BASE = `You are Document Intelligence for Jupiter Asset Management. Answer ONLY from the provided document excerpts. Never use external knowledge.
 Rules: 1) Cite every fact with source number and page e.g. "According to Source 2 (Page 4)…" 2) If the answer is absent say "I cannot find this in the provided sections." 3) Never speculate beyond explicit text. 4) Quote numbers and dates exactly as written.`;
@@ -567,7 +587,7 @@ function launchApp() {
     document.querySelectorAll('.ltype').forEach(x => x.classList.remove('active'));
     b.classList.add('active'); selectedLetterType = b.dataset.t;
   });
-  loadSample();
+  loadFundsJson();
 }
 
 // ─── Mobile tabs ──────────────────────────────────────────────────────────────
@@ -679,22 +699,50 @@ function submitFromQBar(q) {
   send();
 }
 
-// ─── Sample PDF ───────────────────────────────────────────────────────────────
-async function loadSample() {
-  setNote(0, 'Loading Jupiter India Fund factsheet…'); setSlotProg(0, 8);
-  for (const url of SAMPLE_URLS) {
-    try {
-      const r = await fetch(url, { signal: AbortSignal.timeout(14000) });
-      if (!r.ok) continue;
-      const buf = await r.arrayBuffer();
-      if (buf.byteLength < 1000) continue;
-      setSlotProg(0, 38);
-      await processPDF(buf, 'Jupiter India Fund — Factsheet', 0);
-      return;
-    } catch (_) {}
+// ─── Fund selector (funds.json) ───────────────────────────────────────────────
+async function loadFundsJson() {
+  try {
+    const r = await fetch('funds.json?' + Date.now());
+    if (!r.ok) return;
+    const funds = await r.json();
+    if (!Array.isArray(funds) || funds.length === 0) return;
+    const sel = document.getElementById('fundSel');
+    funds.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f.file;
+      opt.textContent = f.name;
+      sel.appendChild(opt);
+    });
+    // Show the selector and the 'or' divider; relabel the upload zone
+    document.getElementById('fundSelWrap').classList.remove('hide');
+    document.getElementById('fundOr').classList.remove('hide');
+    document.getElementById('upZone0Ttl').textContent = 'Upload your own PDF';
+    document.getElementById('upZone0Sub').textContent = 'Or drag and drop any fund factsheet PDF';
+    sel.onchange = () => {
+      const path = sel.value;
+      const name = sel.options[sel.selectedIndex].textContent;
+      if (!path) return;
+      sel.blur();
+      loadFundFromPath(path, name);
+    };
+  } catch (_) {
+    // funds.json absent or malformed — upload-only mode, nothing to do
   }
-  hideSlotProg(0);
-  setNote(0, 'Auto-load unavailable. Please upload a Jupiter fund factsheet (PDF).');
+}
+
+async function loadFundFromPath(filePath, name) {
+  clearPdfErr(0); setSlotProg(0, 10); setNote(0, 'Loading ' + name + '…');
+  try {
+    const r = await fetch(filePath);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const buf = await r.arrayBuffer();
+    if (buf.byteLength < 500) throw new Error('File appears empty');
+    setSlotProg(0, 35);
+    await processPDF(buf, name, 0);
+  } catch (e) {
+    hideSlotProg(0);
+    showPdfErr(0, 'Could not load ' + name + ': ' + e.message);
+  }
 }
 
 // ─── Slot init ────────────────────────────────────────────────────────────────
