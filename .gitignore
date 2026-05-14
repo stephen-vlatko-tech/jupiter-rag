@@ -1,0 +1,15 @@
+# Downloaded fund factsheets — PDFs should not be committed to GitHub
+factsheets/
+
+# Generated fund index — rebuilt locally by fetch_factsheets.py
+funds.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# OS
+.DS_Store
+Thumbs.db
