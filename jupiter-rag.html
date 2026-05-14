@@ -116,13 +116,19 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .pdf-err-btn{background:none;border:1px solid rgba(239,68,68,.4);border-radius:5px;padding:6px 14px;font-size:11.5px;color:#FCA5A5;cursor:pointer;font-family:'Inter',sans-serif;}
 .pdf-err-btn:hover{background:rgba(239,68,68,.1);}
 
-/* Fund selector */
-.fund-sel-wrap{width:100%;}
-.fund-sel-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--txt3);margin-bottom:7px;}
-.fund-sel{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:8px;padding:10px 32px 10px 12px;color:var(--txt);font-family:'Inter',sans-serif;font-size:12.5px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A92B6' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s;}
-.fund-sel:hover{border-color:var(--gold);}
-.fund-sel:focus{border-color:var(--blue);}
-.fund-sel option{background:var(--panel);}
+/* Fund search box */
+.fund-search-box{width:100%;border:2px dashed var(--border2);border-radius:10px;padding:16px 18px 12px;background:rgba(37,99,235,.03);transition:border-color .3s;}
+.fund-search-box:focus-within{border-color:var(--gold);}
+.fund-search-ttl{font-size:13px;font-weight:600;margin-bottom:10px;color:var(--txt);}
+.fund-search-inp-wrap{position:relative;margin-bottom:8px;}
+.fund-search-inp{width:100%;background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px 8px 28px;color:var(--txt);font-family:'Inter',sans-serif;font-size:12.5px;outline:none;transition:border-color .2s;}
+.fund-search-inp:focus{border-color:var(--blue);}
+.fund-search-inp::placeholder{color:var(--txt3);}
+.fund-search-ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:12px;pointer-events:none;}
+.fund-search-list{max-height:148px;overflow-y:auto;}
+.fund-search-item{padding:7px 9px;border-radius:6px;font-size:12px;color:var(--txt2);cursor:pointer;border:1px solid transparent;transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fund-search-item:hover{background:rgba(212,168,67,.08);border-color:rgba(212,168,67,.2);color:var(--txt);}
+.fund-search-empty{font-size:11.5px;color:var(--txt3);text-align:center;padding:10px 0;}
 .fund-or{display:flex;align-items:center;gap:10px;width:100%;}
 .fund-or-line{flex:1;height:1px;background:var(--border);}
 .fund-or-txt{font-size:10.5px;color:var(--txt3);font-weight:500;letter-spacing:.3px;flex-shrink:0;}
@@ -360,12 +366,14 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
         <div class="doc-slot" id="slot0">
           <div class="slot-tag" id="slot0tag"><span class="slot-tag-lbl">Document 1</span></div>
           <div class="up-area" id="upArea0">
-            <!-- Fund selector (shown only when funds.json is available) -->
-            <div class="fund-sel-wrap hide" id="fundSelWrap">
-              <label class="fund-sel-lbl" for="fundSel">Select a pre-loaded fund</label>
-              <select class="fund-sel" id="fundSel">
-                <option value="">— Choose a fund —</option>
-              </select>
+            <!-- Fund search box (shown only when funds.json is available) -->
+            <div class="fund-search-box hide" id="fundSearchBox">
+              <div class="fund-search-ttl">Search a Fund Document</div>
+              <div class="fund-search-inp-wrap">
+                <span class="fund-search-ico">⌕</span>
+                <input class="fund-search-inp" id="fundSearchInp" type="text" placeholder="Type to filter funds…" autocomplete="off">
+              </div>
+              <div class="fund-search-list" id="fundSearchList"></div>
             </div>
             <div class="fund-or hide" id="fundOr">
               <div class="fund-or-line"></div>
@@ -375,8 +383,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
             <!-- Upload zone -->
             <div class="up-zone" id="upZone0">
               <div class="up-ico">📄</div>
-              <div class="up-ttl" id="upZone0Ttl">Upload a Fund Document</div>
-              <div class="up-sub" id="upZone0Sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
+              <div class="up-ttl">Upload a Fund Document</div>
+              <div class="up-sub">Fund factsheets, investor reports,<br>or regulatory filings (PDF)</div>
               <input type="file" id="fileInp0" accept=".pdf" style="display:none">
             </div>
             <div style="width:100%"><div class="prog-wrap hide" id="progWrap0"><div class="prog" id="prog0"></div></div></div>
@@ -699,32 +707,47 @@ function submitFromQBar(q) {
   send();
 }
 
-// ─── Fund selector (funds.json) ───────────────────────────────────────────────
+// ─── Fund search box (funds.json) ────────────────────────────────────────────
 async function loadFundsJson() {
   try {
     const r = await fetch('funds.json?' + Date.now());
     if (!r.ok) return;
     const funds = await r.json();
     if (!Array.isArray(funds) || funds.length === 0) return;
-    const sel = document.getElementById('fundSel');
-    funds.forEach(f => {
-      const opt = document.createElement('option');
-      opt.value = f.file;
-      opt.textContent = f.name;
-      sel.appendChild(opt);
-    });
-    // Show the selector and the 'or' divider; relabel the upload zone
-    document.getElementById('fundSelWrap').classList.remove('hide');
+
+    // Show the search box and the 'or' divider
+    document.getElementById('fundSearchBox').classList.remove('hide');
     document.getElementById('fundOr').classList.remove('hide');
-    document.getElementById('upZone0Ttl').textContent = 'Upload your own PDF';
-    document.getElementById('upZone0Sub').textContent = 'Or drag and drop any fund factsheet PDF';
-    sel.onchange = () => {
-      const path = sel.value;
-      const name = sel.options[sel.selectedIndex].textContent;
-      if (!path) return;
-      sel.blur();
-      loadFundFromPath(path, name);
-    };
+
+    const inp  = document.getElementById('fundSearchInp');
+    const list = document.getElementById('fundSearchList');
+
+    function renderList(query) {
+      const q = query.trim().toLowerCase();
+      const matches = q
+        ? funds.filter(f => f.name.toLowerCase().includes(q))
+        : funds;
+      list.innerHTML = '';
+      if (!matches.length) {
+        list.innerHTML = '<div class="fund-search-empty">No funds match</div>';
+        return;
+      }
+      matches.forEach(f => {
+        const item = document.createElement('div');
+        item.className = 'fund-search-item';
+        item.textContent = f.name;
+        item.title = f.name;
+        item.onclick = () => {
+          inp.value = '';
+          renderList('');
+          loadFundFromPath(f.file, f.name);
+        };
+        list.appendChild(item);
+      });
+    }
+
+    renderList('');
+    inp.oninput = () => renderList(inp.value);
   } catch (_) {
     // funds.json absent or malformed — upload-only mode, nothing to do
   }
