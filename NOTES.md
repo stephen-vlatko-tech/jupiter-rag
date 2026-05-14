@@ -14,5 +14,4 @@
 - Add metric comparison between two loaded fund factsheets — side by side scoring across key metrics like fees, performance, risk rating, geographic exposure
 - Add a core summary of differences between two factsheets broken down by team type — compliance differences, investment differences, client relations differences etc
 - Clean up and declutter the overall UI — it is currently too busy
-- Add a `.gitignore` to exclude the `factsheets` folder from GitHub since PDFs should not be committed
 - Consider adding a progress bar or status indicator when `fetch_factsheets.py` is running so the user knows it has not frozen

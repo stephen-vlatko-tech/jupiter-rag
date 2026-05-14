@@ -32,7 +32,7 @@ Then open `http://localhost:8000/jupiter-rag.html`.
 
 | Feature | Description |
 |---------|-------------|
-| **Fund selector** | Reads `funds.json` on load and lists all downloaded factsheets by name — select a fund to load it instantly without uploading |
+| **Fund search box** | Reads `funds.json` on load and shows a live search box listing all downloaded factsheets — type to filter, click to load instantly |
 | **PDF upload** | Drag and drop any PDF as a fallback or to load your own document |
 | **Automated factsheet fetcher** | `fetch_factsheets.py` scrapes jupiteram.com and downloads all public factsheet PDFs to `./factsheets/` |
 | **RAG pipeline** | Text extracted page-by-page via PDF.js, chunked at ~420 words with 55-word overlap, scored by TF-IDF at query time |

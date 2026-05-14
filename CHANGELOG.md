@@ -18,16 +18,14 @@
 
 ---
 
-## Session 2 — 2026-05-14 — Fund fetcher and selector
+## Session 2 — 2026-05-14 — Fund fetcher and initial selector
 
 - Created `fetch_factsheets.py` to scrape jupiteram.com and download all available fund factsheet PDFs into a local `factsheets` folder
 - Created `requirements.txt` with requests, beautifulsoup4, lxml
 - Updated `run.bat` to run `fetch_factsheets.py` before starting the server
-- Added fund selector dropdown above the existing upload zone in `jupiter-rag.html`
-- Fund selector reads `funds.json` and lists all downloaded funds by name
-- Added "or" divider between fund selector and drag and drop zone
-- Upload zone relabelled as "Upload your own PDF"
-- Selector hides automatically if `funds.json` is absent
+- Added fund selector above the existing upload zone in `jupiter-rag.html`, reading from `funds.json`
+- Added "or" divider between fund selector and upload zone
+- Selector hides automatically if `funds.json` is absent or empty
 - No existing layout or functionality was changed
 
 ---
@@ -37,3 +35,24 @@
 - Attempted to add live PDF rendering to the left panel with gold citation highlights
 - Feature broke the page layout and was reverted to the Session 2 state
 - Revert commit pushed to GitHub at `f4cc8ba`
+
+---
+
+## Session 4 — 2026-05-14 — Documentation and housekeeping
+
+- Updated `README.md` with full feature table, project structure tree, and accurate built-with section
+- Updated `SETUP.md` with pip install step, fetch_factsheets step, and subsequent-runs section
+- Added `.gitignore` excluding `factsheets/`, `funds.json`, Python cache, and OS files
+- Added `CHANGELOG.md` and `NOTES.md`
+
+---
+
+## Session 5 — 2026-05-14 — Fund search box
+
+- Replaced the fund selector dropdown with a live search box styled to match the upload zone
+- Search box has a dashed border, dark navy background, and gold accent on focus — visually consistent with the upload zone beneath it
+- Shows all available funds on load; filters instantly as the user types
+- Input clears and list resets after a fund is selected
+- Upload zone label set to "Upload a Fund Document"
+- Hidden automatically if `funds.json` is absent or empty; "or" divider hidden with it
+- No other layout, panel, or functionality changed
