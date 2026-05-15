@@ -15,11 +15,16 @@
 pip install -r requirements.txt
 ```
 
+**Step 3a:** Install the Playwright browser engine (required once after pip install)
+```
+playwright install chromium
+```
+
 **Step 4:** Download Jupiter fund factsheets
 ```
 python fetch_factsheets.py
 ```
-This scrapes jupiteram.com and downloads all available fund factsheet PDFs into `./factsheets/`. It may take a few minutes on first run. On subsequent runs it skips files that haven't changed.
+This uses a headless browser to visit jupiteram.com, render each fund page, extract structured data, and download factsheet PDFs into `./factsheets/`. The first run may take several minutes as it visits every fund page one by one. On subsequent runs it skips PDFs that haven't changed.
 
 **Step 5:** Launch the app
 ```

@@ -47,6 +47,26 @@
 
 ---
 
+## Session 6 — 2026-05-15 — Playwright scraper
+
+- Replaced `fetch_factsheets.py` entirely with a Playwright headless browser scraper
+- Scraper renders JavaScript pages so the full Jupiter fund list is discovered automatically
+- Extracts structured per-fund data across four tabs: Overview, Performance, Portfolio, Documents
+- Overview data: fund name, ISIN, share class, fund size, launch date, base currency, manager, benchmark, risk profile, domicile, legal structure, OCF, minimum investment, dealing frequency, cut-off time, ISA eligibility, investment objective
+- Performance data: 1yr/3yr/5yr/10yr time series for fund and benchmark, discrete annual figures, cumulative figures
+- Portfolio data: top 10 holdings with weights, geographic/sector/asset class breakdowns, total holdings count
+- Documents: direct PDF download URLs for factsheet, KIID/KID, and prospectus
+- Saves `fund_data.json` and `performance_data.json` per fund in per-ISIN subfolders inside `factsheets/`
+- SHA-256 deduplication skips re-downloading unchanged PDFs
+- Cookie and investor-type overlay dismissal handles Jupiter's consent gates automatically
+- Fallback mode builds `funds.json` from any PDFs already present in `factsheets/` if scraping finds nothing
+- `funds.json` entries now include `isin`, `share_class`, `folder`, `has_performance_data`, `has_portfolio_data`, and `updated` fields
+- Added `playwright>=1.40.0` to `requirements.txt`
+- Updated `run.bat` to silently run `pip install -r requirements.txt` and `playwright install chromium` before fetching
+- Updated `SETUP.md` with Step 3a (`playwright install chromium`) and a note that first run may take several minutes
+
+---
+
 ## Session 5 — 2026-05-14 — Fund search box
 
 - Replaced the fund selector dropdown with a live search box styled to match the upload zone
